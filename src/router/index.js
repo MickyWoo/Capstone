@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomePage from '@/views/HomePage.vue'
+import frontpage from '@/view/frontpage.vue'
 // import BoosterPack from '@/views/BoosterPack.vue'
 // import cardSearch from '@/views/cardSearch.vue'
 
@@ -10,8 +10,8 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        name: 'HomePage',
-        component: HomePage
+        name: 'frontpage',
+        component: frontpage
     },    
   ]
 
