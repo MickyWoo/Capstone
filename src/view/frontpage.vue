@@ -64,8 +64,9 @@
               id="myDropdown"
               class="dropdown-content"
             >
-            
+           
             <div v-for="(value, name) in results" :key="name.Symbol" > {{ name }}: {{ value }} </div>
+        
         
             </div>
           </div>
@@ -118,9 +119,9 @@ export default {
       noText: false,
       messages: [],
       loaded: false,
-      chartdata: null,
+      chartdata: [],
       options: null,
-      Data : false,
+      display : false,
     };
   },
 
@@ -157,8 +158,8 @@ export default {
     getTicker: function () {
       this.noText = false;
       this.showLoading = true;
-      this.chartdata = null;
-      this.results = null;
+      this.chartdata = [];
+      this.results = [];
 
       if (this.ticker !== "") {
         // check if search has any text
@@ -207,7 +208,7 @@ export default {
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
  myFunction: function() {
-  this.Data = true;
+  this.display = true;
 
 }
 
@@ -260,13 +261,13 @@ toggle between hiding and showing the dropdown content */
 }
 
 .dropdown {
-  position: relative;
-  display: inline-block;
+
+  display: flex;
 }
 
 .dropdown-content {
  
-  position: absolute;
+  position: relative;
   background-color: #f1f1f1;
   min-width: 160px;
   overflow: auto;
@@ -276,14 +277,10 @@ toggle between hiding and showing the dropdown content */
 
 .dropdown-content a {
   color: black;
-  padding: 12px 16px;
   text-decoration: none;
-  display: block;
+  display: flex;
 }
 
-.dropdown a:hover {
-  background-color: #ddd;
-}
 
 
 </style>
