@@ -54,20 +54,22 @@
             <div> Dividend:{{results.DividendPerShare}} </div>
           </div>
 
- <!-- dropdown INFO -->
+          <!-- dropdown INFO -->
           <div class="dropdown">
             <button
-              v-on:click="myFunction"
               class="dropbtn"
+
             >Complete OverView</button>
             <div
               id="myDropdown"
               class="dropdown-content"
             >
-           
-            <div v-for="(value, name) in results" :key="name.Symbol" > {{ name }}: {{ value }} </div>
-        
-        
+
+              <div
+                v-for="(value, name) in results"
+                :key="name.Symbol"
+              > {{ name }}: {{ value }} </div>
+
             </div>
           </div>
 
@@ -88,13 +90,13 @@
     <!-- End of News/Tick Search combo -->
 
     <div> StockChart:{{ticker}} </div>
-    <stock-Chart
+    <!-- <stock-Chart
       v-if="loaded"
       :chartdata="chartdata"
       :options="options"
     >
 
-    </stock-Chart>
+    </stock-Chart> -->
   </div>
 
 </template>
@@ -102,13 +104,13 @@
 
 <script>
 import axios from "axios";
-import stockChart from "@/components/stockChart.vue";
+// import stockChart from "@/components/stockChart.vue";
 //https://vue-chartjs.org/guide/#creating-your-first-chart
 
 export default {
   name: "frontpage",
   components: {
-    "stock-Chart": stockChart,
+    // "stock-Chart": stockChart,
   },
 
   data() {
@@ -121,7 +123,7 @@ export default {
       loaded: false,
       chartdata: [],
       options: null,
-      display : false,
+      display: false,
     };
   },
 
@@ -157,7 +159,7 @@ export default {
 
     getTicker: function () {
       this.noText = false;
-      this.showLoading = true;
+      // this.showLoading = true;
       this.chartdata = [];
       this.results = [];
 
@@ -205,15 +207,11 @@ export default {
     },
   },
 
-/* When the user clicks on the button, 
+  /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
- myFunction: function() {
-  this.display = true;
-
-}
-
-
-  
+  myFunction: function () {
+    this.display = true;
+  },
 };
 </script>
 
@@ -231,8 +229,6 @@ toggle between hiding and showing the dropdown content */
   list-style-type: none;
   margin: 10px;
 }
-
-
 
 .stockInfo {
   flex: 0 0 50%;
@@ -261,12 +257,10 @@ toggle between hiding and showing the dropdown content */
 }
 
 .dropdown {
-
   display: flex;
 }
 
 .dropdown-content {
- 
   position: relative;
   background-color: #f1f1f1;
   min-width: 160px;
@@ -280,7 +274,4 @@ toggle between hiding and showing the dropdown content */
   text-decoration: none;
   display: flex;
 }
-
-
-
 </style>
