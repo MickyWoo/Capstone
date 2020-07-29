@@ -40,6 +40,7 @@
           <button type="submit"> submit </button>
         </form>
 
+
         <div
           class="stockInfo"
           v-if="loaded"
@@ -58,17 +59,23 @@
           <div class="dropdown">
             <button
               class="dropbtn"
+              v-on:click="show"
 
             >Complete OverView</button>
+                  <div v-if="display">
             <div
               id="myDropdown"
               class="dropdown-content"
             >
 
+        
+
               <div
                 v-for="(value, name) in results"
                 :key="name.Symbol"
-              > {{ name }}: {{ value }} </div>
+              > {{ name }}: {{ value }}</div>
+
+              </div>
 
             </div>
           </div>
@@ -145,11 +152,7 @@ export default {
         )
         .then((response) => {
           this.latestNews = response.data;
-          //  setTimeout(() => {
-
-          //  }, timeout);
-
-          //i have to push some data out
+  
         })
         .catch((error) => {
           this.errors.push(error);
@@ -205,23 +208,28 @@ export default {
         this.noText = true;
       }
     },
+
+      /* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+  show: function () {
+    this.display = !this.display;
+  },
   },
 
-  /* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-  myFunction: function () {
-    this.display = true;
-  },
+
 };
 </script>
 
 <style scoped>
 .container {
   display: flex;
+  margin: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+ 
 }
 .News {
-  flex: 0 0 50%;
-  justify-content: center;
+  
   max-width: 600px;
 
   border: 2px solid black;
@@ -231,9 +239,8 @@ toggle between hiding and showing the dropdown content */
 }
 
 .stockInfo {
-  flex: 0 0 50%;
-  justify-content: center;
   max-width: 600px;
+
 
   border: 2px solid black;
   padding: 10px;
@@ -243,6 +250,7 @@ toggle between hiding and showing the dropdown content */
 
 /* dropDown Style */
 .dropbtn {
+  
   background-color: #3498db;
   color: white;
   padding: 16px;
@@ -258,20 +266,27 @@ toggle between hiding and showing the dropdown content */
 
 .dropdown {
   display: flex;
+  justify-content: center;
+
 }
 
 .dropdown-content {
-  position: relative;
+  
   background-color: #f1f1f1;
-  min-width: 160px;
+  min-width: auto;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  max-height: 350px;
+
 }
 
 .dropdown-content a {
   color: black;
   text-decoration: none;
   display: flex;
+}
+
+.dropdown-content div{
+  margin: 5px;
 }
 </style>
