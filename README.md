@@ -20,7 +20,8 @@ module.exports = {
 ```
 npm install
 npm install axios
-```
+npm install vue-chartjs chart.js --save  (for line chart )
+``` 
 
 ### Compiles and hot-reloads for development
 ```
