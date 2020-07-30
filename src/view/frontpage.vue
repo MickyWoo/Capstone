@@ -62,11 +62,6 @@
                 id="myDropdown"
                 class="dropdown-content"
               >
-                <div
-                  v-for="(value, name) in results"
-                  :key="name.Symbol"
-                > {{ name }}: {{ value }}</div>
-
               </div>
 
             </div>
@@ -271,6 +266,10 @@ toggle between hiding and showing the dropdown content */
   list-style-type: none;
   margin: 10px;
 }
+.stockContainer div {
+    background-color: #e7e9eb;
+      font-weight: bold;
+}
 
 .stockInfo {
   max-width: 500px;
@@ -340,5 +339,6 @@ toggle between hiding and showing the dropdown content */
 .panel-1,
 .panel-3 {
   background-color: #f1f1f1;
+    font-weight: bold;
 }
 </style>
