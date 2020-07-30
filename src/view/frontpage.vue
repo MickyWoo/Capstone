@@ -40,14 +40,13 @@
           <button type="submit"> submit </button>
         </form>
 
-
         <div
           class="stockInfo"
           v-if="loaded"
         >
 
-          <div class="Stockcontainer">
-            <div> Name:{{results.Name}} </div>
+          <div class="stockContainer">
+            <div> Name:{{}} </div>
 
             <div> Sector:{{results.Sector}} </div>
             <br>
@@ -60,20 +59,16 @@
             <button
               class="dropbtn"
               v-on:click="show"
-
             >Complete OverView</button>
-                  <div v-if="display">
-            <div
-              id="myDropdown"
-              class="dropdown-content"
-            >
-
-        
-
+            <div v-if="display">
               <div
-                v-for="(value, name) in results"
-                :key="name.Symbol"
-              > {{ name }}: {{ value }}</div>
+                id="myDropdown"
+                class="dropdown-content"
+              >
+                <div
+                  v-for="(value, name) in results"
+                  :key="name.Symbol"
+                > {{ name }}: {{ value }}</div>
 
               </div>
 
@@ -96,7 +91,44 @@
     </div>
     <!-- End of News/Tick Search combo -->
 
-    <div> StockChart:{{ticker}} </div>
+    <div
+      class="panelContainer"
+      v-if="display"
+    >
+
+      <div class="panel-1">
+        <h3> Panel 1 </h3>
+        <div> PERatio: {{results.PERatio}} </div>
+        <div> DividendPerShare {{results.DividendPerShare}} </div>
+        <div>DividendYield: {{results.DividendYiel}} </div>
+        <div> AnalystTargetPrice: {{results.AnalystTargetPrice}} </div>
+
+       
+
+      </div>
+      <div class="panel-2">
+        <h3> Panel 2 </h3>
+
+        <div>  {{results.Description}} </div>
+        <div> Address: {{results.Address}} </div>
+        <div> FullTimeEmployees: {{results.FullTimeEmployees}} </div>
+
+      </div>
+      <div class="panel-3">
+        <h3> Panel 3 </h3>
+        <div> MarketCapitalization: {{results.MarketCapitalization}} </div>
+        <div>TrailingPE: {{results.TrailingPE}} </div>
+        <div> ForwardPE: {{results.ForwardPE}} </div>
+        <div>PriceToBookRatio: {{results.PriceToBookRatio}} </div>
+
+      </div>
+
+    </div>
+
+    <div>
+      <h2> StockChart: {{ticker}} </h2>
+
+    </div>
     <!-- <stock-Chart
       v-if="loaded"
       :chartdata="chartdata"
@@ -128,8 +160,8 @@ export default {
       noText: false,
       messages: [],
       loaded: false,
-      chartdata: [],
-      options: null,
+      // chartdata: [],
+      // options: null,
       display: false,
     };
   },
@@ -152,7 +184,6 @@ export default {
         )
         .then((response) => {
           this.latestNews = response.data;
-  
         })
         .catch((error) => {
           this.errors.push(error);
@@ -209,14 +240,12 @@ export default {
       }
     },
 
-      /* When the user clicks on the button, 
+    /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
-  show: function () {
-    this.display = !this.display;
+    show: function () {
+      this.display = !this.display;
+    },
   },
-  },
-
-
 };
 </script>
 
@@ -226,10 +255,9 @@ toggle between hiding and showing the dropdown content */
   margin: 15px;
   justify-content: center;
   flex-wrap: wrap;
- 
 }
-.News {
-  
+.News,
+.stockContainer div {
   max-width: 600px;
 
   border: 2px solid black;
@@ -239,8 +267,7 @@ toggle between hiding and showing the dropdown content */
 }
 
 .stockInfo {
-  max-width: 600px;
-
+  max-width: 500px;
 
   border: 2px solid black;
   padding: 10px;
@@ -250,7 +277,6 @@ toggle between hiding and showing the dropdown content */
 
 /* dropDown Style */
 .dropbtn {
-  
   background-color: #3498db;
   color: white;
   padding: 16px;
@@ -267,17 +293,14 @@ toggle between hiding and showing the dropdown content */
 .dropdown {
   display: flex;
   justify-content: center;
-
 }
 
 .dropdown-content {
-  
   background-color: #f1f1f1;
   min-width: auto;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   max-height: 350px;
-
 }
 
 .dropdown-content a {
@@ -286,7 +309,30 @@ toggle between hiding and showing the dropdown content */
   display: flex;
 }
 
-.dropdown-content div{
+.dropdown-content div {
   margin: 5px;
+}
+
+.panelContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+ 
+}
+
+.panelContainer div {
+  min-width: 200px;
+  max-width: 450px;
+  border: 2px solid black;
+  padding: 10px;
+  list-style-type: none;
+  margin: 10px;
+   overflow: auto;
+  /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+  max-height: 550px;
+}
+.panel-1,
+.panel-3 {
+  background-color: #f1f1f1;
 }
 </style>
