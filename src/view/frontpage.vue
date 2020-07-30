@@ -45,13 +45,10 @@
           v-if="loaded"
         >
 
-          <div class="stockContainer">
-            <div> Name:{{}} </div>
+          <div class="stockContainer" v-for="(value, name) in dailyChartData" :key="name.open">
+            <div> {{ name }}: {{ value }}</div>
 
-            <div> Sector:{{results.Sector}} </div>
-            <br>
-            <div> PE Ratio:{{results.PERatio}} </div>
-            <div> Dividend:{{results.DividendPerShare}} </div>
+          
           </div>
 
           <!-- dropdown INFO -->
@@ -160,9 +157,10 @@ export default {
       noText: false,
       messages: [],
       loaded: false,
-      // chartdata: [],
+      chartdata: [],
       // options: null,
       display: false,
+      dailyChartData: [],
     };
   },
 
@@ -201,7 +199,7 @@ export default {
         // check if search has any text
         axios
           .get(
-            `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&&apikey=JSAD44QMQ8EVHSX7`, // Stock OVERVIEW
+            `https://marketdata.websol.barchart.com/getHistory.json?apikey=faf40b2f41f0480230752ec47aacc00f&type=minutes&startDate=20100101&maxRecords=10&interval=60&order=asc&sessionFilter=EFK&splits=true&dividends=true&volume=sum&nearby=1&jerq=true`, // Stock Dialy Close
             {
               params: {
                 symbol: this.ticker,
@@ -209,15 +207,17 @@ export default {
             }
           )
           .then((response) => {
+          
             this.chartdata = response.data;
             this.loaded = true;
+              this.dailyData();
 
             // this.showLoading = false;
           });
 
         axios
           .get(
-            `https://www.alphavantage.co/query?function=OVERVIEW&apikey=JSAD44QMQ8EVHSX7`, // Stock Daily Close Data Line Chart
+            `https://www.alphavantage.co/query?function=OVERVIEW&apikey=JSAD44QMQ8EVHSX7`, // Stock OverVIEW
             {
               params: {
                 symbol: this.ticker,
@@ -245,6 +245,12 @@ toggle between hiding and showing the dropdown content */
     show: function () {
       this.display = !this.display;
     },
+
+
+  dailyData: function() {
+    this.dailyChartData = this.chartdata.results[this.chartdata.results.length - 1]
+  },
+
   },
 };
 </script>
