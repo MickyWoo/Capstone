@@ -29,7 +29,8 @@
         >
           <div class="searchbar-input">
             <!-- Input -->
-            <input class="search"
+            <input
+              class="search"
               v-model="ticker"
               type="search"
               placeholder="AAPL"
@@ -45,10 +46,13 @@
           v-if="loaded"
         >
 
-          <div class="stockContainer" v-for="(value, name) in dailyChartData" :key="name.open">
+          <div
+            class="stockContainer"
+            v-for="(value, name) in dailyChartData"
+            :key="name.open"
+          >
             <div> {{ name }}: {{ value }}</div>
 
-          
           </div>
 
           <!-- dropdown INFO -->
@@ -95,13 +99,11 @@
         <div>DividendYield: {{results.DividendYiel}} </div>
         <div> AnalystTargetPrice: {{results.AnalystTargetPrice}} </div>
 
-       
-
       </div>
       <div class="panel-2">
         <h3> Panel 2 </h3>
 
-        <div>  {{results.Description}} </div>
+        <div> {{results.Description}} </div>
         <div> Address: {{results.Address}} </div>
         <div> FullTimeEmployees: {{results.FullTimeEmployees}} </div>
 
@@ -117,17 +119,13 @@
 
     </div>
 
+    <!-- StockChart -->
     <div>
       <h2> StockChart: {{ticker}} </h2>
 
     </div>
-    <!-- <stock-Chart
-      v-if="loaded"
-      :chartdata="chartdata"
-      :options="options"
-    >
-
-    </stock-Chart> -->
+    <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
+  <div id="chartdiv"></div> 
   </div>
 
 </template>
@@ -135,8 +133,11 @@
 
 <script>
 import axios from "axios";
-// import stockChart from "@/components/stockChart.vue";
-//https://vue-chartjs.org/guide/#creating-your-first-chart
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+
+am4core.useTheme(am4themes_animated); //https://www.amcharts.com/docs/v4/getting-started/integrations/using-vue-js/
 
 export default {
   name: "frontpage",
@@ -159,8 +160,6 @@ export default {
     };
   },
 
-  // I think i could have use created(){ } as well
-  //mounted is used because its after html is set so I can actually use the Methods via GET. if it was before Mounted, its before DOM was loaded so nothing is there.
   mounted() {
     // allows me to Get Latest News without going into Methods and calling on it form there. which i cant.  https://vuejs.org/v2/api/#created
 
@@ -174,11 +173,11 @@ export default {
       axios
         .get(
           `http://newsapi.org/v2/top-headlines?country=us&pageSize=5&category=business&apiKey=f702b0d64e0f48b5809e0c8db7c9a399`,
-           {
-              params: {
-                "Access-Control-Allow-Origin" : "http://newsapi.org/v2/",
-              },
-            }
+          {
+            params: {
+              "Access-Control-Allow-Origin": "http://newsapi.org/v2/",
+            },
+          }
         )
         .then((response) => {
           this.latestNews = response.data;
@@ -199,7 +198,7 @@ export default {
         // check if search has any text
         axios
           .get(
-            `https://marketdata.websol.barchart.com/getHistory.json?apikey=faf40b2f41f0480230752ec47aacc00f&type=minutes&startDate=20100101&maxRecords=10&interval=60&order=asc&sessionFilter=EFK&splits=true&dividends=true&volume=sum&nearby=1&jerq=true`, // Stock Dialy Close
+            `https://marketdata.websol.barchart.com/getHistory.json?apikey=faf40b2f41f0480230752ec47aacc00f&type=dailyContinue&startDate=20100101&maxRecords=10&interval=60&order=asc&sessionFilter=EFK&splits=true&dividends=true&volume=sum&nearby=1&jerq=true`, // Stock Dialy Close
             {
               params: {
                 symbol: this.ticker,
@@ -207,10 +206,10 @@ export default {
             }
           )
           .then((response) => {
-          
             this.chartdata = response.data;
             this.loaded = true;
-              this.dailyData();
+            this.dailyData();
+            this.stockChart();
 
             // this.showLoading = false;
           });
@@ -241,16 +240,89 @@ export default {
     },
 
     /* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
+      toggle between hiding and showing the dropdown content */
     show: function () {
       this.display = !this.display;
     },
 
+    dailyData: function () {
+      this.dailyChartData = this.chartdata.results[
+        this.chartdata.results.length - 1
+      ];
+    },
 
-  dailyData: function() {
-    this.dailyChartData = this.chartdata.results[this.chartdata.results.length - 1]
-  },
 
+    //https://www.amcharts.com/docs/v4/tutorials/taming-candlestick-series/
+    stockChart: function () {
+      am4core.useTheme(am4themes_animated);
+
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+chart.paddingRight = 20;
+
+chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
+dateAxis.renderer.minGridDistance = 60;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.tooltip.disabled = true;
+
+var series = chart.series.push(new am4charts.CandlestickSeries());
+series.name = this.ticker;
+series.dataFields.dateX = "tradingDay";
+series.dataFields.valueY = "close";
+series.dataFields.openValueY = "open";
+series.dataFields.lowValueY = "low";
+series.dataFields.highValueY = "high";
+series.tooltipText = "Open: [bold]${openValueY.value}[/]\nLow: [bold]${lowValueY.value}[/]\nHigh: [bold]${highValueY.value}[/]\nClose: [bold]${valueY.value}[/]";
+
+chart.cursor = new am4charts.XYCursor();
+
+chart.scrollbarX = new am4core.Scrollbar();
+
+chart.data = this.chartdata.results //[ {
+//   "date": "2018-08-01",
+//   "open": "136.65",
+//   "high": "136.96",
+//   "low": "134.15",
+//   "close": "136.49"
+// }, {
+//   "date": "2018-08-02",
+//   "open": "135.26",
+//   "high": "135.95",
+//   "low": "131.50",
+//   "close": "131.85"
+// }, {
+//   "date": "2018-08-05",
+//   "open": "132.90",
+//   "high": "135.27",
+//   "low": "128.30",
+//   "close": "135.25"
+// }, {
+//   "date": "2018-08-06",
+//   "open": "134.94",
+//   "high": "137.24",
+//   "low": "132.63",
+//   "close": "135.03"
+// }, {
+//   "date": "2018-08-07",
+//   "open": "136.76",
+//   "high": "136.86",
+//   "low": "132.00",
+//   "close": "134.01"
+// }];
+
+
+  series.legendSettings.labelText = "[{column.fill}]Open: ${valueY.open} Low: ${valueY.low} High: ${valueY.high} Close: ${valueY.close}[/]";
+
+series.legendSettings.itemLabelText = "[{column.fill}]Open: ${openValueY.value} Low: ${lowValueY.value} High: ${highValueY.value} Close: ${valueY.value}[/]";
+
+// Legend
+chart.legend = new am4charts.Legend();
+
+
+    },
   },
 };
 </script>
@@ -272,8 +344,8 @@ toggle between hiding and showing the dropdown content */
   margin: 10px;
 }
 .stockContainer div {
-    background-color: #e7e9eb;
-      font-weight: bold;
+  background-color: #e7e9eb;
+  font-weight: bold;
 }
 
 .stockInfo {
@@ -327,7 +399,6 @@ toggle between hiding and showing the dropdown content */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
- 
 }
 
 .panelContainer div {
@@ -337,21 +408,28 @@ toggle between hiding and showing the dropdown content */
   padding: 10px;
   list-style-type: none;
   margin: 10px;
-   overflow: auto;
+  overflow: auto;
   /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
   max-height: 550px;
 }
 .panel-1,
 .panel-3 {
   background-color: #f1f1f1;
-    font-weight: bold;
+  font-weight: bold;
 }
 
-.search{
-    padding: 6px;
+.search {
+  padding: 6px;
   margin-top: 8px;
   font-size: 17px;
-border: 3px solid rgb(0, 17, 250);
-border-radius: 25px;
+  border: 3px solid rgb(0, 17, 250);
+  border-radius: 25px;
+}
+
+#chartdiv {
+  width: 100%;
+  height: 500px;
+  min-width: 500px;
+  padding: 10px;
 }
 </style>

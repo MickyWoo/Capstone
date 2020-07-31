@@ -1,4 +1,4 @@
-# Capstone Project - Ebay API - Browsing Features
+# Capstone Project - Stock API - News API COmbo
 
 ## create
 ```
@@ -20,7 +20,7 @@ module.exports = {
 ```
 npm install
 npm install axios
-npm install vue-chartjs chart.js --save  (for line chart )
+npm install @amcharts/amcharts4
 ``` 
 
 ### Compiles and hot-reloads for development
