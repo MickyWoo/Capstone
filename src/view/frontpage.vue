@@ -29,7 +29,7 @@
         >
           <div class="searchbar-input">
             <!-- Input -->
-            <input
+            <input class="search"
               v-model="ticker"
               type="search"
               placeholder="AAPL"
@@ -173,7 +173,12 @@ export default {
     getNews: function () {
       axios
         .get(
-          `http://newsapi.org/v2/top-headlines?country=us&pageSize=5&category=business&apiKey=f702b0d64e0f48b5809e0c8db7c9a399`
+          `http://newsapi.org/v2/top-headlines?country=us&pageSize=5&category=business&apiKey=f702b0d64e0f48b5809e0c8db7c9a399`,
+           {
+              params: {
+                "Access-Control-Allow-Origin" : "http://newsapi.org/v2/",
+              },
+            }
         )
         .then((response) => {
           this.latestNews = response.data;
@@ -340,5 +345,13 @@ toggle between hiding and showing the dropdown content */
 .panel-3 {
   background-color: #f1f1f1;
     font-weight: bold;
+}
+
+.search{
+    padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+border: 3px solid rgb(0, 17, 250);
+border-radius: 25px;
 }
 </style>
