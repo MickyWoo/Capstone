@@ -133,7 +133,7 @@
           <button   
           v-for="sets in setsAvaliable"
                 :key="sets.name"
-                v-bind:value="sets.value" v-on:click="selected(sets.value)"> {{ sets.text }}  </button>
+                v-bind:value="sets.value" v-on:click="selected(sets.value); switchTimeSeries();"> {{ sets.text }}  </button>
 
 
 
@@ -256,15 +256,15 @@ export default {
             });
             // this.showLoading = false;
           });
-      } else {
-        this.noText = true;
-      }
-    },
+              } else {
+                this.noText = true;
+              }
+            },
 
 
     switchTimeSeries: function () {
        this.chartdata = [];
-        this.results = [];
+    
 
       axios
         .get(
@@ -277,7 +277,9 @@ export default {
           }
         )
         .then((response) => {
-          this.latestNews = response.data;
+          this.chartdata = response.data;
+         
+          // this.stockChart();
         })
         .catch((error) => {
           this.errors.push(error);
@@ -301,7 +303,7 @@ export default {
     stockChart: function () {
       am4core.useTheme(am4themes_animated);
 
-      var chart = am4core.create("chartdiv", am4charts.XYChart);
+      var chart = am4core.create("chartdiv", am4charts.XYChart);  // i need to work around this create
       chart.paddingRight = 20;
 
       chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
@@ -339,6 +341,7 @@ export default {
       chart.legend = new am4charts.Legend();
     },
 
+  // timeSeriesSelection 
     selected: function(value){
       this.chosenValue = value;
     },
