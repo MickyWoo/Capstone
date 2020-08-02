@@ -194,10 +194,14 @@ export default {
     getNews: function () {
       axios
         .get(
-          `http://newsapi.org/v2/top-headlines?country=us&pageSize=5&category=business&apiKey=f702b0d64e0f48b5809e0c8db7c9a399`,
+          `http://newsapi.org/v2/top-headlines?country=us`,
           {
             params: {
-              "Access-Control-Allow-Origin": "http://newsapi.org/v2/top-headlines?country=us&pageSize=5&category=business&apiKey=f702b0d64e0f48b5809e0c8db7c9a399",
+               "Access-Control-Allow-Origin": "newsapi.org",
+              pageSize: "5",
+              category: "business",
+              apiKey: "f702b0d64e0f48b5809e0c8db7c9a399",
+             
             },
           }
         )
