@@ -3,6 +3,11 @@
     <h1> Financial View (working title) </h1>
 
     <div class="container">
+
+       <div class="messages">
+          <message-container v-bind:messages="messages"> </message-container>
+      </div>
+
       <div class="topNews">
         <h2> Latest Market News </h2>
         <div
@@ -55,27 +60,21 @@
 
           </div>
 
-          <!-- dropdown INFO -->
-          <div class="dropdown">
+         
+          <div class="overview">
             <button
               class="dropbtn"
               v-on:click="show"
-            >Complete OverView</button>
-            <div v-if="display">
-              <div
-                id="myDropdown"
-                class="dropdown-content"
-              >
-              </div>
-
-            </div>
+              >   Complete OverView
+            </button>
+         
           </div>
 
         </div>
 
         <div
           class="no-results"
-          v-if="noText"
+          v-if="noText " 
         >
 
           <h2>Please Enter a Ticker</h2>
@@ -126,20 +125,19 @@
     </div>
     <div
       class="timeSeries"
-           v-if="loaded"
+      v-if="loaded"
     >
 
-       
-          <button   
-          v-for="sets in setsAvaliable"
-                :key="sets.name"
-                v-bind:value="sets.value" v-on:click="selected(sets.value); switchTimeSeries();"> {{ sets.text }}  </button>
-
-
+      <button
+        v-for="sets in setsAvaliable"
+        :key="sets.name"
+        v-bind:value="sets.value"
+        v-on:click="selected(sets.value); switchTimeSeries();"
+      > {{ sets.text }} </button>
 
     </div>
     <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
-    <div id="chartdiv"></div>
+    <div id="chartdiv" ></div>
   </div>
 
 </template>
@@ -150,12 +148,16 @@ import axios from "axios";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import MessageContainer from '@/components/MessageContainer.vue'
+require('vue2-animate/dist/vue2-animate.min.css');
 
 am4core.useTheme(am4themes_animated); //https://www.amcharts.com/docs/v4/getting-started/integrations/using-vue-js/
 
 export default {
   name: "frontpage",
-  components: {},
+  components: {
+     'message-container': MessageContainer,
+  },
 
   data() {
     return {
@@ -164,28 +166,25 @@ export default {
       latestNews: [],
       noText: false,
       messages: [],
+
       loaded: false,
-      chartdata: [],
-      // options: null,
       display: false,
+
       dailyChartData: [],
       chart: "",
+      chartdata: [],
 
-
-      chosenValue:"",
-       setsAvaliable: [
+      chosenValue: "",
+      setsAvaliable: [
         { text: "Daily", value: "daily" },
         { text: "Weekly", value: "weekly" },
         { text: "Monthly", value: "monthly" },
         { text: "Yearly", value: "yearly" },
-    
-       ]
+      ],
     };
   },
 
   mounted() {
-    // allows me to Get Latest News without going into Methods and calling on it form there. which i cant.  https://vuejs.org/v2/api/#created
-
     this.getNews(); // inital retreive
     // setInterval( ()=> this.getNews(), 5*60*1000); // and continous update every 5mins https://www.w3schools.com/js/js_timing.asp
     console.log("Latest news updates every 5 mins!!");
@@ -194,18 +193,14 @@ export default {
   methods: {
     getNews: function () {
       axios
-        .get(
-          `http://newsapi.org/v2/top-headlines?country=us`,
-          {
-            params: {
-               "Access-Control-Allow-Origin": "newsapi.org",
-              pageSize: "5",
-              category: "business",
-              apiKey: "f702b0d64e0f48b5809e0c8db7c9a399",
-             
-            },
-          }
-        )
+        .get(`http://newsapi.org/v2/top-headlines?country=us`, {
+          params: {
+            "Access-Control-Allow-Origin": "newsapi.org",
+            pageSize: "5",
+            category: "business",
+            apiKey: "f702b0d64e0f48b5809e0c8db7c9a399",
+          },
+        })
         .then((response) => {
           this.latestNews = response.data;
         })
@@ -235,6 +230,10 @@ export default {
           .then((response) => {
             this.chartdata = response.data;
             this.loaded = true;
+
+            this.checkResults();
+
+
             this.dailyData();
             this.stockChart();
 
@@ -261,32 +260,30 @@ export default {
             });
             // this.showLoading = false;
           });
-              } else {
-                this.noText = true;
-              }
-            },
-
+      } else {
+        this.noText = true;
+        this.loaded = false;
+      }
+    },
 
     switchTimeSeries: function () {
-       this.chartdata = [];
-    
+      this.chartdata = [];
 
       axios
         .get(
-          `https://marketdata.websol.barchart.com/getHistory.json?apikey=faf40b2f41f0480230752ec47aacc00f&startDate=20100101&maxRecords=10&interval=60&order=asc&sessionFilter=EFK&splits=true&dividends=true&volume=sum&nearby=1&jerq=true`,
+          `https://marketdata.websol.barchart.com/getHistory.json?startDate=20100101&maxRecords=10&interval=60&order=asc&sessionFilter=EFK&splits=true&dividends=true&volume=sum&nearby=1&jerq=true`,
           {
             params: {
               symbol: this.ticker,
               type: this.chosenValue,
+              apikey: "faf40b2f41f0480230752ec47aacc00f",
             },
           }
         )
         .then((response) => {
           this.chartdata = response.data;
-         this.chart.data = this.chartdata.results;
-        
-         
-         
+          this.chart.data = this.chartdata.results;
+
           // this.stockChart();
         })
         .catch((error) => {
@@ -295,8 +292,15 @@ export default {
         });
     },
 
-    /* When the user clicks on the button, 
-      toggle between hiding and showing the dropdown content */
+    checkResults: function(){
+      if ( this.chartdata.results === null){
+            this.noText = true;
+           this.loaded = false;
+           this.chartdata.results =[];
+           this.chart = [];
+  
+      }
+    },
     show: function () {
       this.display = !this.display;
     },
@@ -311,7 +315,7 @@ export default {
     stockChart: function () {
       am4core.useTheme(am4themes_animated);
 
-      this.chart = am4core.create("chartdiv", am4charts.XYChart);  // i need to work around this create
+      this.chart = am4core.create("chartdiv", am4charts.XYChart); 
       this.chart.paddingRight = 20;
 
       this.chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
@@ -322,7 +326,6 @@ export default {
 
       var valueAxis = this.chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.tooltip.disabled = true;
-
 
       var series = this.chart.series.push(new am4charts.CandlestickSeries());
       series.name = this.ticker;
@@ -348,14 +351,12 @@ export default {
 
       // Legend
       this.chart.legend = new am4charts.Legend();
-
     },
 
-  // timeSeriesSelection 
-    selected: function(value){
+    // timeSeriesSelection
+    selected: function (value) {
       this.chosenValue = value;
     },
-    
   },
 };
 </script>
@@ -405,12 +406,12 @@ export default {
   background-color: #2980b9;
 }
 
-.dropdown {
+ /* .dropdown {
   display: flex;
   justify-content: center;
-}
+} */
 
-.dropdown-content {
+/* .dropdown-content {
   background-color: #f1f1f1;
   min-width: auto;
   overflow: auto;
@@ -426,7 +427,7 @@ export default {
 
 .dropdown-content div {
   margin: 5px;
-}
+} */
 
 .panelContainer {
   display: flex;
@@ -444,7 +445,8 @@ export default {
   overflow: auto;
   /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
   max-height: 550px;
-}
+}  
+
 .panel-1,
 .panel-3 {
   background-color: #f1f1f1;
