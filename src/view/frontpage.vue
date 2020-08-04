@@ -169,6 +169,7 @@ export default {
       // options: null,
       display: false,
       dailyChartData: [],
+      chart: "",
 
 
       chosenValue:"",
@@ -282,6 +283,9 @@ export default {
         )
         .then((response) => {
           this.chartdata = response.data;
+         this.chart.data = this.chartdata.results;
+        
+         
          
           // this.stockChart();
         })
@@ -305,21 +309,70 @@ export default {
 
     //https://www.amcharts.com/docs/v4/tutorials/taming-candlestick-series/
     stockChart: function () {
+      this.makeChart();
+      this.chartInfo();
+
+      // am4core.useTheme(am4themes_animated);
+
+      // var chart = am4core.create("chartdiv", am4charts.XYChart);  // i need to work around this create
+      // chart.paddingRight = 20;
+
+      // chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+
+      // var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      // dateAxis.renderer.grid.template.location = 0;
+      // dateAxis.renderer.minGridDistance = 60;
+
+      // var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      // valueAxis.tooltip.disabled = true;
+
+      // var series = chart.series.push(new am4charts.CandlestickSeries());
+      // series.name = this.ticker;
+      // series.dataFields.dateX = "tradingDay";
+      // series.dataFields.valueY = "close";
+      // series.dataFields.openValueY = "open";
+      // series.dataFields.lowValueY = "low";
+      // series.dataFields.highValueY = "high";
+      // series.tooltipText =
+      //   "Open: [bold]${openValueY.value}[/]\nLow: [bold]${lowValueY.value}[/]\nHigh: [bold]${highValueY.value}[/]\nClose: [bold]${valueY.value}[/]";
+
+      // chart.cursor = new am4charts.XYCursor();
+
+      // chart.scrollbarX = new am4core.Scrollbar();
+
+      // chart.data = this.chartdata.results;
+
+      // series.legendSettings.labelText =
+      //   "[{column.fill}]Open: ${valueY.open} Low: ${valueY.low} High: ${valueY.high} Close: ${valueY.close}[/]";
+
+      // series.legendSettings.itemLabelText =
+      //   "[{column.fill}]Open: ${openValueY.value} Low: ${lowValueY.value} High: ${highValueY.value} Close: ${valueY.value}[/]";
+
+      // // Legend
+      // chart.legend = new am4charts.Legend();
+
+   
+    },
+
+    makeChart: function() {
       am4core.useTheme(am4themes_animated);
 
-      var chart = am4core.create("chartdiv", am4charts.XYChart);  // i need to work around this create
-      chart.paddingRight = 20;
+      this.chart = am4core.create("chartdiv", am4charts.XYChart);  // i need to work around this create
+      this.chart.paddingRight = 20;
 
-      chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+      this.chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
 
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      var dateAxis = this.chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.grid.template.location = 0;
       dateAxis.renderer.minGridDistance = 60;
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      var valueAxis = this.chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.tooltip.disabled = true;
+      
+    },
 
-      var series = chart.series.push(new am4charts.CandlestickSeries());
+    chartInfo: function() {
+        var series = this.chart.series.push(new am4charts.CandlestickSeries());
       series.name = this.ticker;
       series.dataFields.dateX = "tradingDay";
       series.dataFields.valueY = "close";
@@ -329,11 +382,11 @@ export default {
       series.tooltipText =
         "Open: [bold]${openValueY.value}[/]\nLow: [bold]${lowValueY.value}[/]\nHigh: [bold]${highValueY.value}[/]\nClose: [bold]${valueY.value}[/]";
 
-      chart.cursor = new am4charts.XYCursor();
+      this.chart.cursor = new am4charts.XYCursor();
 
-      chart.scrollbarX = new am4core.Scrollbar();
+      this.chart.scrollbarX = new am4core.Scrollbar();
 
-      chart.data = this.chartdata.results;
+      this.chart.data = this.chartdata.results;
 
       series.legendSettings.labelText =
         "[{column.fill}]Open: ${valueY.open} Low: ${valueY.low} High: ${valueY.high} Close: ${valueY.close}[/]";
@@ -342,7 +395,8 @@ export default {
         "[{column.fill}]Open: ${openValueY.value} Low: ${lowValueY.value} High: ${highValueY.value} Close: ${valueY.value}[/]";
 
       // Legend
-      chart.legend = new am4charts.Legend();
+      this.chart.legend = new am4charts.Legend();
+
     },
 
   // timeSeriesSelection 
