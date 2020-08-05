@@ -11,7 +11,6 @@
       
       <Top-News v-bind:latestNews="this.latestNews">  </Top-News>
 
-
       <!-- END Market News -->
 
           <!-- Stock ticker -->
@@ -35,9 +34,10 @@
               <button type="submit"> submit </button>
             </form>
 
+      
+       <Loading-Spinner v-if="showLoading"> </Loading-Spinner>
 
       <StockBasic-Info v-bind:dailyChartData="this.dailyChartData" v-if="loaded"> </StockBasic-Info>
-
 
             <div
               class="no-results"
@@ -54,34 +54,29 @@
     <!-- End of News/Tick Search combo -->
 
     <!-- STOCK OverView Panels -->
-
-      <Overview-Panels v-bind:results="this.results"  v-if="display"> </Overview-Panels>
- 
-
+    <Overview-Panels v-bind:results="this.results"  v-if="display"> </Overview-Panels>
+  
     <!-- StockChart -->
     <div class="chartContainer">
       <h2> StockChart: {{ticker}} </h2>
 
-   
-    <div
-      class="timeSeries"
-      v-if="loaded"
-    >
+        <div
+          class="timeSeries"
+          v-if="loaded" >
 
-      <button
-        v-for="sets in setsAvaliable"
-        :key="sets.name"
-        v-bind:value="sets.value"
-        v-on:click="selected(sets.value); switchTimeSeries();"
-      > {{ sets.text }} </button>
+          <button
+            v-for="sets in setsAvaliable"
+            :key="sets.name"
+            v-bind:value="sets.value"
+            v-on:click="selected(sets.value); switchTimeSeries();"
+          > {{ sets.text }} </button>
+
+        </div>
+        
+        <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
+          <div id="chartdiv"></div>
 
     </div>
-    <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
-
-
-      <div id="chartdiv"></div>
-
-       </div>
 
   </div>
 
@@ -99,6 +94,7 @@ require("vue2-animate/dist/vue2-animate.min.css");
 import TopNews from "@/components/TopNews.vue";
 import OverviewPanels from '@/components/OverviewPanels.vue';
 import StockBasicInfo from '@/components/StockBasicInfo.vue';
+import LoadingSpinner from '@/components/LoadingSpinner.vue';
 
 
 
@@ -111,6 +107,7 @@ export default {
     "Top-News": TopNews,
     "Overview-Panels": OverviewPanels,
     "StockBasic-Info": StockBasicInfo,
+    "Loading-Spinner": LoadingSpinner,
   },
 
   data() {
@@ -123,6 +120,7 @@ export default {
 
       loaded: false,
       display: false,
+      showLoading: false,
 
       dailyChartData: [],
       chart: "",
@@ -141,6 +139,7 @@ export default {
   mounted() {
     this.getNews(); // inital retreive
     // setInterval( ()=> this.getNews(), 5*60*1000); // and continous update every 5mins https://www.w3schools.com/js/js_timing.asp
+    // I have LIMITED API calls, so i commented it out.
     console.log("Latest news updates every 5 mins!!");
   },
 
@@ -160,13 +159,13 @@ export default {
         })
         .catch((error) => {
           this.errors.push(error);
-          //  this.showLoading = false; // this.showLoading = false was outside of the tryCatch block, so no matter what i did it is registering showLoading as false
+          
         });
     },
 
     getTicker: function () {
       this.noText = false;
-      // this.showLoading = true;
+      this.showLoading = true;
       this.chartdata = [];
       this.results = [];
 
@@ -189,9 +188,8 @@ export default {
 
             this.dailyData();
             this.stockChart();
-
-            // this.showLoading = false;
           });
+            
 
         axios
           .get(
@@ -204,19 +202,22 @@ export default {
           )
           .then((response) => {
             this.results = response.data;
+                    this.showLoading = false;
           })
 
           .catch((error) => {
             this.messages.push({
               type: "error",
               text: error.message,
+              
             });
-            // this.showLoading = false;
+    
           });
       } else {
         this.noText = true;
         this.loaded = false;
       }
+  
     },
 
     switchTimeSeries: function () {
@@ -237,11 +238,9 @@ export default {
           this.chartdata = response.data;
           this.chart.data = this.chartdata.results;
 
-          // this.stockChart();
         })
         .catch((error) => {
           this.errors.push(error);
-          //  this.showLoading = false; // this.showLoading = false was outside of the tryCatch block, so no matter what i did it is registering showLoading as false
         });
     },
 
