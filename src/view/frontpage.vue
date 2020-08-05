@@ -9,79 +9,54 @@
       </div>
 
       
-    <Top-News v-bind:latestNews="this.latestNews">  </Top-News>
+      <Top-News v-bind:latestNews="this.latestNews">  </Top-News>
 
 
       <!-- END Market News -->
 
-      <!-- Stock ticker -->
-      <div class=stockSearch>
-        <h2> Please Enter Stock Ticker </h2>
-        <form
-          class="searchbar"
-          v-on:submit.prevent="getTicker"
-        >
-          <div class="searchbar-input">
-            <!-- Input -->
-            <input
-              class="search"
-              v-model="ticker"
-              type="search"
-              placeholder="AAPL"
+          <!-- Stock ticker -->
+          <div class=stockSearch>
+            <h2> Please Enter Stock Ticker </h2>
+            <form
+              class="searchbar"
+              v-on:submit.prevent="getTicker"
+            >
+              <div class="searchbar-input">
+                <!-- Input -->
+                <input
+                  class="search"
+                  v-model="ticker"
+                  type="search"
+                  placeholder="AAPL"
+                >
+
+              </div>
+
+              <button type="submit"> submit </button>
+            </form>
+
+
+      <StockBasic-Info v-bind:dailyChartData="this.dailyChartData" v-if="loaded"> </StockBasic-Info>
+
+
+            <div
+              class="no-results"
+              v-if="noText "
             >
 
-          </div>
-
-          <button type="submit"> submit </button>
-        </form>
-
-        <div
-          class="stockInfo"
-          v-if="loaded"
-        >
-
-          <div
-            class="stockContainer"
-            v-for="(value, name) in dailyChartData"
-            :key="name.open"
-          >
-            <div> {{ name }}: {{ value }}</div>
-
-          </div>
-
-          <div class="overview">
-            <button
-              class="dropbtn"
-              v-on:click="show"
-            > Complete OverView
-            </button>
+              <h2>Please Enter a Ticker</h2>
+              <p> OR Please adjust your search</p>
+            </div>
 
           </div>
 
         </div>
-
-        <div
-          class="no-results"
-          v-if="noText "
-        >
-
-          <h2>Please Enter a Ticker</h2>
-          <p> OR Please adjust your search</p>
-        </div>
-
-      </div>
-
-    </div>
     <!-- End of News/Tick Search combo -->
 
     <!-- STOCK OverView Panels -->
 
-
       <Overview-Panels v-bind:results="this.results"  v-if="display"> </Overview-Panels>
-
-
  
-    <!-- END STOCK OverView Panels -->
 
     <!-- StockChart -->
     <div class="chartContainer">
@@ -123,6 +98,8 @@ require("vue2-animate/dist/vue2-animate.min.css");
 
 import TopNews from "@/components/TopNews.vue";
 import OverviewPanels from '@/components/OverviewPanels.vue';
+import StockBasicInfo from '@/components/StockBasicInfo.vue';
+
 
 
 am4core.useTheme(am4themes_animated); //https://www.amcharts.com/docs/v4/getting-started/integrations/using-vue-js/
@@ -133,6 +110,7 @@ export default {
     "message-container": MessageContainer,
     "Top-News": TopNews,
     "Overview-Panels": OverviewPanels,
+    "StockBasic-Info": StockBasicInfo,
   },
 
   data() {
@@ -275,9 +253,9 @@ export default {
         this.chart = [];
       }
     },
-    show: function () {
-      this.display = !this.display;
-    },
+    // show: function () {
+    //   this.display = !this.display;
+    // },
 
     dailyData: function () {
       this.dailyChartData = this.chartdata.results[
@@ -341,43 +319,6 @@ export default {
   margin: 15px;
   justify-content: center;
   flex-wrap: wrap;
-}
-
-.stockContainer div {
-  max-width: 600px;
-
-  border: 2px solid black;
-  padding: 10px;
-  list-style-type: none;
-  margin: 10px;
-}
-.stockContainer div {
-  background-color: #e7e9eb;
-  font-weight: bold;
-}
-
-.stockInfo {
-  max-width: 500px;
-
-  border: 2px solid black;
-  padding: 10px;
-  list-style-type: none;
-  margin: 10px;
-}
-
-/* dropDown Style */
-.dropbtn {
-  background-color: #3498db;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.dropbtn:hover,
-.dropbtn:focus {
-  background-color: #2980b9;
 }
 
 
