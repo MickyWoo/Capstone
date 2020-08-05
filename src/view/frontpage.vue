@@ -4,24 +4,13 @@
 
     <div class="container">
 
-       <div class="messages">
-          <message-container v-bind:messages="messages"> </message-container>
+      <div class="messages">
+        <message-container v-bind:messages="messages"> </message-container>
       </div>
 
-      <div class="topNews">
-        <h2> Latest Market News </h2>
-        <div
-          class="News"
-          v-for="story in latestNews.articles"
-          :key="story.title"
-        >
+      
+    <Top-News v-bind:latestNews="this.latestNews">  </Top-News>
 
-          <li class="storyTitle"> <a v-bind:href="story.url"> {{story.title}} </a> </li>
-
-          <li class="time"> published Date/Time: <br> {{story.publishedAt}} </li>
-
-        </div>
-      </div>
 
       <!-- END Market News -->
 
@@ -60,21 +49,20 @@
 
           </div>
 
-         
           <div class="overview">
             <button
               class="dropbtn"
               v-on:click="show"
-              >   Complete OverView
+            > Complete OverView
             </button>
-         
+
           </div>
 
         </div>
 
         <div
           class="no-results"
-          v-if="noText " 
+          v-if="noText "
         >
 
           <h2>Please Enter a Ticker</h2>
@@ -85,6 +73,8 @@
 
     </div>
     <!-- End of News/Tick Search combo -->
+
+    <!-- STOCK OverView Panels -->
 
     <div
       class="panelContainer"
@@ -117,12 +107,13 @@
       </div>
 
     </div>
+    <!-- END STOCK OverView Panels -->
 
     <!-- StockChart -->
-    <div>
+    <div class="chartContainer">
       <h2> StockChart: {{ticker}} </h2>
 
-    </div>
+   
     <div
       class="timeSeries"
       v-if="loaded"
@@ -137,7 +128,12 @@
 
     </div>
     <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
-    <div id="chartdiv" ></div>
+
+
+      <div id="chartdiv"></div>
+
+       </div>
+
   </div>
 
 </template>
@@ -148,15 +144,18 @@ import axios from "axios";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import MessageContainer from '@/components/MessageContainer.vue'
-require('vue2-animate/dist/vue2-animate.min.css');
+import MessageContainer from "@/components/MessageContainer.vue";
+require("vue2-animate/dist/vue2-animate.min.css");
+
+import TopNews from "@/components/TopNews.vue";
 
 am4core.useTheme(am4themes_animated); //https://www.amcharts.com/docs/v4/getting-started/integrations/using-vue-js/
 
 export default {
   name: "frontpage",
   components: {
-     'message-container': MessageContainer,
+    "message-container": MessageContainer,
+    "Top-News": TopNews,
   },
 
   data() {
@@ -233,7 +232,6 @@ export default {
 
             this.checkResults();
 
-
             this.dailyData();
             this.stockChart();
 
@@ -292,13 +290,12 @@ export default {
         });
     },
 
-    checkResults: function(){
-      if ( this.chartdata.results === null){
-            this.noText = true;
-           this.loaded = false;
-           this.chartdata.results =[];
-           this.chart = [];
-  
+    checkResults: function () {
+      if (this.chartdata.results === null) {
+        this.noText = true;
+        this.loaded = false;
+        this.chartdata.results = [];
+        this.chart = [];
       }
     },
     show: function () {
@@ -315,7 +312,7 @@ export default {
     stockChart: function () {
       am4core.useTheme(am4themes_animated);
 
-      this.chart = am4core.create("chartdiv", am4charts.XYChart); 
+      this.chart = am4core.create("chartdiv", am4charts.XYChart);
       this.chart.paddingRight = 20;
 
       this.chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
@@ -368,7 +365,7 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
 }
-.News,
+
 .stockContainer div {
   max-width: 600px;
 
@@ -406,7 +403,7 @@ export default {
   background-color: #2980b9;
 }
 
- /* .dropdown {
+/* .dropdown {
   display: flex;
   justify-content: center;
 } */
@@ -445,7 +442,7 @@ export default {
   overflow: auto;
   /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
   max-height: 550px;
-}  
+}
 
 .panel-1,
 .panel-3 {
@@ -466,5 +463,11 @@ export default {
   height: 500px;
   min-width: 500px;
   padding: 10px;
+}
+
+.chartContainer button{
+  min-width: 80px;
+ padding: 5px;
+
 }
 </style>
