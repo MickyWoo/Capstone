@@ -60,19 +60,19 @@
     <div class="chartContainer">
       <h2> StockChart: {{ticker}} </h2>
 
-        <div
-          class="timeSeries"
-          v-if="loaded" >
+      <div
+        class="timeSeries"
+        v-if="loaded" >
 
-          <button
-            v-for="sets in setsAvaliable"
-            :key="sets.name"
-            v-bind:value="sets.value"
-            v-on:click="selected(sets.value); switchTimeSeries();"
-          > {{ sets.text }} </button>
+        <button
+          v-for="sets in setsAvaliable"
+          :key="sets.name"
+          v-bind:value="sets.value"
+          v-on:click="selected(sets.value); switchTimeSeries();"
+        > {{ sets.text }} </button>
 
-        </div>
-        
+      </div>
+      
         <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
           <div id="chartdiv"></div>
 
@@ -84,6 +84,7 @@
 
 
 <script>
+
 import axios from "axios";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -137,6 +138,7 @@ export default {
   },
 
   mounted() {
+    this.chart = am4core.create("chartdiv", am4charts.XYChart);
     this.getNews(); // inital retreive
     // setInterval( ()=> this.getNews(), 5*60*1000); // and continous update every 5mins https://www.w3schools.com/js/js_timing.asp
     // I have LIMITED API calls, so i commented it out.
@@ -168,6 +170,8 @@ export default {
       this.showLoading = true;
       this.chartdata = [];
       this.results = [];
+ 
+    
 
       if (this.ticker !== "") {
         // check if search has any text
@@ -183,6 +187,7 @@ export default {
           .then((response) => {
             this.chartdata = response.data;
             this.loaded = true;
+    
 
             this.checkResults();
 
@@ -222,6 +227,7 @@ export default {
 
     switchTimeSeries: function () {
       this.chartdata = [];
+    
 
       axios
         .get(
@@ -246,6 +252,7 @@ export default {
 
     checkResults: function () {
       if (this.chartdata.results === null) {
+   
         this.noText = true;
         this.loaded = false;
         this.chartdata.results = [];
@@ -266,7 +273,9 @@ export default {
     stockChart: function () {
       am4core.useTheme(am4themes_animated);
 
-      this.chart = am4core.create("chartdiv", am4charts.XYChart);
+ 
+
+      
       this.chart.paddingRight = 20;
 
       this.chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
