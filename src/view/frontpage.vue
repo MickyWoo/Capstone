@@ -37,7 +37,9 @@
       
        <Loading-Spinner v-if="showLoading"> </Loading-Spinner>
 
-      <StockBasic-Info v-bind:dailyChartData="this.dailyChartData" v-if="loaded"> </StockBasic-Info>
+          <!-- v-on continuation of emit Child Function > and set it to a new function in Parent component which is definded
+           in parent component. -->
+      <StockBasic-Info v-bind:dailyChartData="this.dailyChartData" v-on:showPanels="show()" v-if="loaded"> </StockBasic-Info>
 
             <div
               class="no-results"
@@ -74,7 +76,7 @@
       </div>
       
         <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
-          <div id="chartdiv"></div>
+          <div id="chartdiv" ></div>
 
     </div>
 
@@ -194,6 +196,7 @@ export default {
             this.checkResults();
 
             this.dailyData();
+                //  this.stockChart();
   
           });
             

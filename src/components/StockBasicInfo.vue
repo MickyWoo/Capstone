@@ -14,7 +14,8 @@
 
     <div class="overview">
       <button class="dropbtn"
-        v-on:click="show">  
+        v-on:click="show"
+        >  
         Complete OverView
       </button>
 
@@ -38,7 +39,8 @@ export default {
 
     methods: {
          show: function () {
-             this.display = !this.display;
+       
+             this.$emit('showPanels') // emit a new function name (showPanels) into Parent
      },
 
  },
