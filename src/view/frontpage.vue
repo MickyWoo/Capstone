@@ -138,7 +138,8 @@ export default {
   },
 
   mounted() {
-    this.chart = am4core.create("chartdiv", am4charts.XYChart);
+   
+              this.stockChart();
     this.getNews(); // inital retreive
     // setInterval( ()=> this.getNews(), 5*60*1000); // and continous update every 5mins https://www.w3schools.com/js/js_timing.asp
     // I have LIMITED API calls, so i commented it out.
@@ -186,13 +187,14 @@ export default {
           )
           .then((response) => {
             this.chartdata = response.data;
+                    this.chart.data = this.chartdata.results;
             this.loaded = true;
     
 
             this.checkResults();
 
             this.dailyData();
-            this.stockChart();
+  
           });
             
 
@@ -272,8 +274,7 @@ export default {
     //https://www.amcharts.com/docs/v4/tutorials/taming-candlestick-series/
     stockChart: function () {
       am4core.useTheme(am4themes_animated);
-
- 
+       this.chart = am4core.create("chartdiv", am4charts.XYChart);
 
       
       this.chart.paddingRight = 20;
@@ -317,6 +318,10 @@ export default {
     selected: function (value) {
       this.chosenValue = value;
     },
+
+    show: function () {
+      this.display = !this.display;
+     },
   },
 };
 </script>
