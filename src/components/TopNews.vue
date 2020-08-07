@@ -33,12 +33,20 @@ export default {
 
 <style scoped>
 .News {
-  max-width: 600px;
-
+  max-width: 500px;
+  
   border: 2px solid black;
   padding: 10px;
   list-style-type: none;
   margin: 10px;
+   box-shadow: 5px 5px #888888;
+  background-color: rgb(245, 204, 229);
   
+}
+
+.News a{
+  color:rgb(3, 50, 138);
+   font-weight: bold;
+ 
 }
 </style>

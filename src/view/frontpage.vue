@@ -1,6 +1,16 @@
 <template>
   <div class="Head">
+  
     <h1> Financial View (working title) </h1>
+
+                <!-- <div class="theme-switch-wrapper">
+              <label class="theme-switch" for="checkbox">
+                  <input type="checkbox" id="checkbox" />
+                  <div class="slider round" v-on:click="ToggleMode"></div>
+            </label>
+            <div>  Enable Dark Mode!</div>
+          </div> -->
+
 
     <div class="container">
 
@@ -8,10 +18,12 @@
         <message-container v-bind:messages="messages"> </message-container>
       </div>
 
-      
+     
+
+        <!-- Market News -->
       <Top-News v-bind:latestNews="this.latestNews">  </Top-News>
 
-      <!-- END Market News -->
+    
 
           <!-- Stock ticker -->
           <div class=stockSearch>
@@ -39,7 +51,7 @@
 
           <!-- v-on continuation of emit Child Function > and set it to a new function in Parent component which is definded
            in parent component. -->
-      <StockBasic-Info v-bind:dailyChartData="this.dailyChartData" v-on:showPanels="show()" v-if="loaded"> </StockBasic-Info>
+      <StockBasic-Info v-bind:dailyChartData="this.dailyChartData" v-on:showPanels="show()" v-if="loaded" > </StockBasic-Info>
 
             <div
               class="no-results"
@@ -59,7 +71,7 @@
     <Overview-Panels v-bind:results="this.results"  v-if="display"> </Overview-Panels>
   
     <!-- StockChart -->
-    <div class="chartContainer">
+    <div class="chartContainer" >
       <h2> StockChart: {{ticker}} </h2>
 
       <div
@@ -76,7 +88,11 @@
       </div>
       
         <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
-          <div id="chartdiv" ></div>
+      
+          <div id="chartdiv" v-bind:class="{hidden: !loaded}"  ></div>
+       
+           <!-- v-bind:style="{visibility: !loaded ? 'visable' : 'hidden' }" -->
+         
 
     </div>
 
@@ -136,6 +152,8 @@ export default {
         { text: "Monthly", value: "monthly" },
         { text: "Yearly", value: "yearly" },
       ],
+
+
     };
   },
 
@@ -153,7 +171,7 @@ export default {
       axios
         .get(`http://newsapi.org/v2/top-headlines?country=us`, {
           params: {
-            "Access-Control-Allow-Origin": "http://newsapi.org",
+     
             pageSize: "5",
             category: "business",
             apiKey: "f702b0d64e0f48b5809e0c8db7c9a399",
@@ -191,6 +209,8 @@ export default {
             this.chartdata = response.data;
                     this.chart.data = this.chartdata.results;
             this.loaded = true;
+            document.getElementsByClassName("hidden").visibility = "visable",
+
     
 
             this.checkResults();
@@ -264,15 +284,7 @@ export default {
         this.chart = [];
       }
     },
-    // show: function () {
-    //   this.display = !this.display;
-    // },
 
-    dailyData: function () {
-      this.dailyChartData = this.chartdata.results[
-        this.chartdata.results.length - 1
-      ];
-    },
 
     //https://www.amcharts.com/docs/v4/tutorials/taming-candlestick-series/
     stockChart: function () {
@@ -325,6 +337,18 @@ export default {
     show: function () {
       this.display = !this.display;
      },
+
+    dailyData: function () {
+      this.dailyChartData = this.chartdata.results[
+        this.chartdata.results.length - 1
+      ];
+    },
+
+//    ToggleMode: function() {
+//    var element = document.body;
+//    element.toggle("dark-mode");
+// },
+    
   },
 };
 </script>
@@ -359,4 +383,74 @@ export default {
  padding: 5px;
 
 }
+
+.hidden{
+  visibility: hidden;
+}
+
+
+
+
+/* dark mode css */
+/* .dark-mode {
+  background-color: black;
+  color: white;
+}
+
+
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+
+
+}
+.theme-switch {
+  display: inline-block;
+  height: 34px;
+  position: relative;
+  width: 60px;
+}
+
+.theme-switch input {
+  display:none;
+}
+
+.slider {
+  background-color: #ccc;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "";
+  height: 26px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 26px;
+}
+
+input:checked + .slider {
+  background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} */
+
 </style>

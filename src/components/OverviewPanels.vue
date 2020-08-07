@@ -55,7 +55,7 @@ export default {
 
 .panelContainer div {
   min-width: 200px;
-  max-width: 450px;
+  max-width: 400px;
   border: 2px solid black;
   padding: 10px;
   list-style-type: none;
