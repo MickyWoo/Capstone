@@ -171,6 +171,7 @@ export default {
       axios
         .get(`http://newsapi.org/v2/top-headlines?country=us`, {
           params: {
+            'Access-Control-Allow-Origin': "newsapi.org",
      
             pageSize: "5",
             category: "business",
