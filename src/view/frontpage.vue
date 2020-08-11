@@ -1,93 +1,101 @@
 <template>
   <div class="Head">
-    
-  <div id="Nav-Bar">
-   <nav class="main-nav">
-     <div class="logo">
-  <h1> Market View </h1>
-     </div>
-     <div> About </div>
-       <div> Home </div>
-         <div> contact </div>
-     <Burger-nav></Burger-nav>
-   </nav>
 
-   <Sidebar-nav>
-     <ul class="sidebar-panel-nav">
-       <li><a href="#home">Home</a></li>
-       <li><a href="#about">About</a></li>
-       <li><a href="#contact">Contact</a></li>
-     </ul>
-   </Sidebar-nav>
- </div>
+    <div id="Nav-Bar">
+      <nav
+        class="main-nav"
+        id="Home"
+      >
+        <div class="logo">
+          <a href="#"> Market View</a>
+       
+        </div>
+        <!-- <div> About </div>
+        <div> Home </div>
+        <div> contact </div> -->
+        <Burger-nav></Burger-nav>
+      </nav>
 
+      <Sidebar-nav>
+        <ul class="sidebar-panel-nav">
+          <li><a href="#">Home</a></li>
+          <li><a href="#Charts">Charts</a></li>
+          <li><a href="#Contact">Contact</a></li>
+        </ul>
+      </Sidebar-nav>
+    </div>
 
     <div class="container">
-      
 
       <div class="messages">
         <message-container v-bind:messages="messages"> </message-container>
       </div>
 
-     
+      <!-- Market News -->
+      <Top-News v-bind:latestNews="this.latestNews"> </Top-News>
 
-        <!-- Market News -->
-      <Top-News v-bind:latestNews="this.latestNews">  </Top-News>
-
-    
-
-          <!-- Stock ticker -->
-          <div class=stockSearch>
-            <h2> Please Enter Stock Ticker </h2>
-            <form
-              class="searchbar"
-              v-on:submit.prevent="getTicker"
+      <!-- Stock ticker -->
+      <div class=stockSearch>
+        <h2> Please Enter Stock Ticker </h2>
+        <form
+          class="searchbar"
+          v-on:submit.prevent="getTicker"
+        >
+          <div class="searchbar-input">
+            <!-- Input -->
+            <input
+              class="search"
+              v-model="ticker"
+              type="search"
+              placeholder="AAPL"
             >
-              <div class="searchbar-input">
-                <!-- Input -->
-                <input
-                  class="search"
-                  v-model="ticker"
-                  type="search"
-                  placeholder="AAPL"
-                >
-
-              </div>
-
-              <button type="submit"> submit </button>
-            </form>
-
-      
-       <Loading-Spinner v-if="showLoading"> </Loading-Spinner>
-
-          <!-- v-on continuation of emit Child Function > and set it to a new function in Parent component which is definded
-           in parent component. -->
-      <StockBasic-Info v-bind:dailyChartData="this.dailyChartData" v-on:showPanels="show()" v-if="loaded" > </StockBasic-Info>
-
-            <div
-              class="no-results"
-              v-if="noText "
-            >
-
-              <h2>Please Enter a Ticker</h2>
-              <p> OR Please adjust your search</p>
-            </div>
 
           </div>
 
+          <button type="submit"> submit </button>
+        </form>
+
+        <Loading-Spinner v-if="showLoading"> </Loading-Spinner>
+
+        <!-- v-on continuation of emit Child Function > and set it to a new function in Parent component which is definded
+           in parent component. -->
+        <StockBasic-Info
+          v-bind:dailyChartData="this.dailyChartData"
+          v-on:showPanels="show()"
+          v-if="loaded"
+        > </StockBasic-Info>
+
+        <div
+          class="no-results"
+          v-if="noText "
+        >
+
+          <h2>Please Enter a Ticker</h2>
+          <p> OR Please adjust your search</p>
         </div>
+
+      </div>
+
+    </div>
     <!-- End of News/Tick Search combo -->
 
     <!-- STOCK OverView Panels -->
-    <Overview-Panels v-bind:results="this.results"  v-if="display"> </Overview-Panels>
-  
+    <Overview-Panels
+      v-bind:results="this.results"
+      v-if="display"
+    > </Overview-Panels>
+
     <!-- StockChart -->
-    <div class="chartContainer" >
+    <div
+      class="chartContainer"
+      id="Charts"
+    >
       <h2> {{ticker}} Stock Chart </h2>
 
       <div
         class="timeSeries"
-        v-if="loaded" >
+        v-if="loaded"
+      >
 
         <button
           v-for="sets in setsAvaliable"
@@ -97,57 +105,63 @@
         > {{ sets.text }} </button>
 
       </div>
-      
-        <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
-      
-          <div id="chartdiv" v-bind:class="{hidden: !loaded}"  ></div>
-       
-           <!-- v-bind:style="{visibility: !loaded ? 'visable' : 'hidden' }" -->
-         
 
+      <!-- https://codepen.io/team/amcharts/pen/ZEYXEJV -->
 
-  <v-app id="inspire">
-    <v-footer
-      dark
-      padless
-    >
-      <v-card
-        flat
-        tile
-        class="indigo lighten-1 white--text text-center"
-      >
-        <v-card-text>
-          <v-btn
-            v-for="icon in icons"
-            :key="icon"
-            class="mx-4 white--text"
-            icon
-          >
-            <v-icon size="24px">{{ icon }}</v-icon>
-          </v-btn>
-        </v-card-text>
-  
+      <div
+        id="chartdiv"
+        v-bind:class="{hidden: !loaded}"
+      ></div>
+
+      <!-- v-bind:style="{visibility: !loaded ? 'visable' : 'hidden' }" -->
+
+      <!-- Stock Chart Container END -->
+    </div>
+
+    <div class="spacer">
+      <hr>
+    </div>
+
+<!-- FOOTER -->
+      <v-footer
+        id="Contact"
         
-  
-        <v-divider></v-divider>
-  
-        <v-card-text class="white--text">
-          {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
-        </v-card-text>
-      </v-card>
-    </v-footer>
-  </v-app>
-</div>
+        
+        padless
+        class="footer"
+      >
+        <v-card
+          flat
+          tile
+          class=" white--text text-center container"
+        >
+          <v-card-text>
+            <v-btn
+              v-for="icon in icons"
+              :key="icon"
+              class="mx-4 white--text"
+              icon
+            >
+              <v-icon size="24px">{{ icon }}</v-icon>
+            </v-btn>
+          </v-card-text>
 
-  </div>
+          <v-divider></v-divider>
+
+          <v-card-text class="white--text">
+            {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
+          </v-card-text>
+        </v-card>
+      </v-footer>
+
+    </div>
 
 </template>
 
 
 <script>
-  //  import { store, mutations } from '@/store.js'
-import Burger from '@/components/menu/Burger.vue';
-import Sidebar from '@/components/menu/Sidebar.vue';
+import Burger from "@/components/menu/Burger.vue";
+import Sidebar from "@/components/menu/Sidebar.vue";
 
 import axios from "axios";
 import * as am4core from "@amcharts/amcharts4/core";
@@ -157,11 +171,9 @@ import MessageContainer from "@/components/MessageContainer.vue";
 require("vue2-animate/dist/vue2-animate.min.css");
 
 import TopNews from "@/components/TopNews.vue";
-import OverviewPanels from '@/components/OverviewPanels.vue';
-import StockBasicInfo from '@/components/StockBasicInfo.vue';
-import LoadingSpinner from '@/components/LoadingSpinner.vue';
-
-
+import OverviewPanels from "@/components/OverviewPanels.vue";
+import StockBasicInfo from "@/components/StockBasicInfo.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 am4core.useTheme(am4themes_animated); //https://www.amcharts.com/docs/v4/getting-started/integrations/using-vue-js/
 
@@ -176,7 +188,6 @@ export default {
     "Burger-nav": Burger,
     "Sidebar-nav": Sidebar,
   },
-
 
   data() {
     return {
@@ -201,20 +212,12 @@ export default {
         { text: "Monthly", value: "monthly" },
         { text: "Yearly", value: "yearly" },
       ],
-       icons: [
-      'mdi-facebook',
-      'mdi-twitter',
-      'mdi-linkedin',
-      'mdi-instagram',
-    ],
-
-
+      icons: ["mdi-github", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
     };
   },
 
   mounted() {
-   
-              this.stockChart();
+    this.stockChart();
     this.getNews(); // inital retreive
     // setInterval( ()=> this.getNews(), 5*60*1000); // and continous update every 5mins https://www.w3schools.com/js/js_timing.asp
     // I have LIMITED API calls, so i commented it out.
@@ -227,7 +230,7 @@ export default {
         .get(`http://newsapi.org/v2/top-headlines?country=us`, {
           params: {
             "Access-Control-Allow-Origin": "*",
- 
+
             pageSize: "5",
             category: "business",
             apiKey: "f702b0d64e0f48b5809e0c8db7c9a399",
@@ -238,7 +241,6 @@ export default {
         })
         .catch((error) => {
           this.errors.push(error);
-          
         });
     },
 
@@ -247,8 +249,6 @@ export default {
       this.showLoading = true;
       this.chartdata = [];
       this.results = [];
- 
-    
 
       if (this.ticker !== "") {
         // check if search has any text
@@ -263,19 +263,14 @@ export default {
           )
           .then((response) => {
             this.chartdata = response.data;
-                    this.chart.data = this.chartdata.results;
+            this.chart.data = this.chartdata.results;
             this.loaded = true;
-            document.getElementsByClassName("hidden").visibility = "visable",
-
-    
-
-            this.checkResults();
+            (document.getElementsByClassName("hidden").visibility = "visable"),
+              this.checkResults();
 
             this.dailyData();
-                //  this.stockChart();
-  
+            //  this.stockChart();
           });
-            
 
         axios
           .get(
@@ -288,27 +283,23 @@ export default {
           )
           .then((response) => {
             this.results = response.data;
-                    this.showLoading = false;
+            this.showLoading = false;
           })
 
           .catch((error) => {
             this.messages.push({
               type: "error",
               text: error.message,
-              
             });
-    
           });
       } else {
         this.noText = true;
         this.loaded = false;
       }
-  
     },
 
     switchTimeSeries: function () {
       this.chartdata = [];
-    
 
       axios
         .get(
@@ -324,7 +315,6 @@ export default {
         .then((response) => {
           this.chartdata = response.data;
           this.chart.data = this.chartdata.results;
-
         })
         .catch((error) => {
           this.errors.push(error);
@@ -333,7 +323,6 @@ export default {
 
     checkResults: function () {
       if (this.chartdata.results === null) {
-   
         this.noText = true;
         this.loaded = false;
         this.chartdata.results = [];
@@ -341,13 +330,11 @@ export default {
       }
     },
 
-
     //https://www.amcharts.com/docs/v4/tutorials/taming-candlestick-series/
     stockChart: function () {
       am4core.useTheme(am4themes_animated);
-       this.chart = am4core.create("chartdiv", am4charts.XYChart);
+      this.chart = am4core.create("chartdiv", am4charts.XYChart);
 
-      
       this.chart.paddingRight = 20;
 
       this.chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
@@ -392,7 +379,7 @@ export default {
 
     show: function () {
       this.display = !this.display;
-     },
+    },
 
     dailyData: function () {
       this.dailyChartData = this.chartdata.results[
@@ -400,11 +387,10 @@ export default {
       ];
     },
 
-//    ToggleMode: function() {
-//    var element = document.body;
-//    element.toggle("dark-mode");
-// },
-    
+    //    ToggleMode: function() {
+    //    var element = document.body;
+    //    element.toggle("dark-mode");
+    // },
   },
 };
 </script>
@@ -416,8 +402,6 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
 }
-
-
 
 .search {
   padding: 6px;
@@ -434,55 +418,76 @@ export default {
   padding: 10px;
 }
 
-.chartContainer button{
+.chartContainer button {
   min-width: 80px;
- padding: 5px;
-
+  padding: 5px;
 }
 
-.hidden{
+.hidden {
   visibility: hidden;
 }
 
 /* SideBar CSS */
 
+#Nav-Bar {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato";
+  height: 100%;
+  background: rgb(101, 31, 87);
+  background: linear-gradient(
+    45deg,
+    rgba(101, 31, 87, 1) 0%,
+    rgba(225, 113, 87, 1) 48%,
+    rgba(249, 248, 113, 1) 100%
+  );
+}
 
- #Nav-Bar {
-   border: 0; margin: 0; padding: 0;
-   font-family: 'Lato';
-   height: 100%;
-   background: rgb(101,31,87);
-   background: linear-gradient(45deg, rgba(101,31,87,1) 0%, rgba(225,113,87,1) 48%, rgba(249,248,113,1) 100%);
- }
-
- .logo {
-   align-self: center;
-   color: rgb(253, 231, 231);
-   font-weight: bold;
-   font-family: 'Lato';
-   text-shadow: 0 0 3px  black;
-   font-size: 20px;
- }
-
- .main-nav {
-   display: flex;
-   justify-content: space-between;
-   padding: 0.5rem 0.8rem;
- }
-
- ul.sidebar-panel-nav {
-   list-style-type: none;
- }
-
- ul.sidebar-panel-nav > li > a {
-   color: rgb(255, 255, 255);
-   text-decoration: none;
-   font-size: 1.5rem;
-   display: block;
-   padding-bottom: 0.5em;
- }
+.logo a{
+ 
+  color: rgb(253, 231, 231);
+  font-weight: bold;
+  font-family: "Lato";
+  text-shadow: 0 0 3px black;
+  font-size: 30px;
+ 
+}
 
 
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+}
+
+ul.sidebar-panel-nav {
+  list-style-type: none;
+}
+
+ul.sidebar-panel-nav > li > a {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-size: 1.5rem;
+  display: block;
+  padding-bottom: 0.5em;
+}
+
+.footer {
+  display: flex;
+  background: rgb(101, 31, 87);
+  background: linear-gradient(
+    45deg,
+    rgba(101, 31, 87, 1) 0%,
+    rgba(225, 113, 87, 1) 48%,
+    rgba(249, 248, 113, 1) 100%);
+  justify-content: center;
+}
+
+.spacer{
+  height: 100px;
+
+}
 
 /* dark mode css */
 /* .dark-mode {
@@ -545,5 +550,4 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 } */
-
 </style>
