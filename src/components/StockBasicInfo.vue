@@ -61,6 +61,7 @@ export default {
 
 }
 
+
 .stockInfo {
   max-width: 500px;
 

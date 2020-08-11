@@ -90,7 +90,7 @@
       class="chartContainer"
       id="Charts"
     >
-      <h2> {{ticker}} Stock Chart </h2>
+      <h2> [{{ticker}}] Stock Chart: {{this.chosenValue}} </h2>
 
       <div
         class="timeSeries"
@@ -118,9 +118,9 @@
       <!-- Stock Chart Container END -->
     </div>
 
-    <div class="spacer">
+    <!-- <div class="spacer">
       <hr>
-    </div>
+    </div> -->
 
     <!-- FOOTER -->
     <div class="">
@@ -139,7 +139,7 @@
 
       <v-divider></v-divider>
 
-      <v-card-text class="white--text">
+      <v-card-text class="year" style="font-size:1.25em">
         {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
       </v-card-text>
 
@@ -418,8 +418,16 @@ export default {
 }
 
 .chartContainer button {
+  border: 2px solid black;
+  margin: 5px;
+
   min-width: 80px;
   padding: 5px;
+}
+.chartContainer button:hover {
+background-color:rgb(166, 230, 255);
+
+  transition: 1.25s;
 }
 
 .hidden {
