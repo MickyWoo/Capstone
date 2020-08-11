@@ -3,6 +3,7 @@
 ## create
 ```
 vue create capstone
+vue add vuetify
 ```
 ## initial setup
 ```
@@ -22,6 +23,7 @@ npm install
 npm install axios
 npm install @amcharts/amcharts4
 npm install --save vue2-animate
+
 ``` 
 
 ### Compiles and hot-reloads for development

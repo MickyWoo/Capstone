@@ -47,8 +47,8 @@
 
     .burger-button {
         position: relative;
-        height: 30px;
-        width: 32px;
+        height: 65px;
+        width: 45px;
         display: block;
         z-index: 999;
         border: 0;

@@ -1,12 +1,14 @@
 <template>
   <div class="Head">
-
-
-  <div id="app">
+    
+  <div id="Nav-Bar">
    <nav class="main-nav">
      <div class="logo">
-  <h1> My company </h1>
+  <h1> Market View </h1>
      </div>
+     <div> About </div>
+       <div> Home </div>
+         <div> contact </div>
      <Burger-nav></Burger-nav>
    </nav>
 
@@ -18,12 +20,10 @@
      </ul>
    </Sidebar-nav>
  </div>
-    <hr>
-  
-    <h1> Financial View (working title) </h1>
 
 
     <div class="container">
+      
 
       <div class="messages">
         <message-container v-bind:messages="messages"> </message-container>
@@ -105,7 +105,39 @@
            <!-- v-bind:style="{visibility: !loaded ? 'visable' : 'hidden' }" -->
          
 
-    </div>
+
+  <v-app id="inspire">
+    <v-footer
+      dark
+      padless
+    >
+      <v-card
+        flat
+        tile
+        class="indigo lighten-1 white--text text-center"
+      >
+        <v-card-text>
+          <v-btn
+            v-for="icon in icons"
+            :key="icon"
+            class="mx-4 white--text"
+            icon
+          >
+            <v-icon size="24px">{{ icon }}</v-icon>
+          </v-btn>
+        </v-card-text>
+  
+        
+  
+        <v-divider></v-divider>
+  
+        <v-card-text class="white--text">
+          {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
+        </v-card-text>
+      </v-card>
+    </v-footer>
+  </v-app>
+</div>
 
   </div>
 
@@ -145,6 +177,7 @@ export default {
     "Sidebar-nav": Sidebar,
   },
 
+
   data() {
     return {
       ticker: "",
@@ -168,6 +201,12 @@ export default {
         { text: "Monthly", value: "monthly" },
         { text: "Yearly", value: "yearly" },
       ],
+       icons: [
+      'mdi-facebook',
+      'mdi-twitter',
+      'mdi-linkedin',
+      'mdi-instagram',
+    ],
 
 
     };
@@ -406,12 +445,9 @@ export default {
 }
 
 /* SideBar CSS */
-html {
-   height: 100%;
-   overflow:hidden;
- }
 
- body {
+
+ #Nav-Bar {
    border: 0; margin: 0; padding: 0;
    font-family: 'Lato';
    height: 100%;
@@ -421,9 +457,11 @@ html {
 
  .logo {
    align-self: center;
-   color: rgb(255, 1, 1);
+   color: rgb(253, 231, 231);
    font-weight: bold;
-   font-family: 'Lato'
+   font-family: 'Lato';
+   text-shadow: 0 0 3px  black;
+   font-size: 20px;
  }
 
  .main-nav {
