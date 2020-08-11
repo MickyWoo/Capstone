@@ -1,15 +1,26 @@
 <template>
   <div class="Head">
+
+
+  <div id="app">
+   <nav class="main-nav">
+     <div class="logo">
+  <h1> My company </h1>
+     </div>
+     <Burger-nav></Burger-nav>
+   </nav>
+
+   <Sidebar-nav>
+     <ul class="sidebar-panel-nav">
+       <li><a href="#home">Home</a></li>
+       <li><a href="#about">About</a></li>
+       <li><a href="#contact">Contact</a></li>
+     </ul>
+   </Sidebar-nav>
+ </div>
+    <hr>
   
     <h1> Financial View (working title) </h1>
-
-                <!-- <div class="theme-switch-wrapper">
-              <label class="theme-switch" for="checkbox">
-                  <input type="checkbox" id="checkbox" />
-                  <div class="slider round" v-on:click="ToggleMode"></div>
-            </label>
-            <div>  Enable Dark Mode!</div>
-          </div> -->
 
 
     <div class="container">
@@ -72,7 +83,7 @@
   
     <!-- StockChart -->
     <div class="chartContainer" >
-      <h2> StockChart: {{ticker}} </h2>
+      <h2> {{ticker}} Stock Chart </h2>
 
       <div
         class="timeSeries"
@@ -102,6 +113,9 @@
 
 
 <script>
+  //  import { store, mutations } from '@/store.js'
+import Burger from '@/components/menu/Burger.vue';
+import Sidebar from '@/components/menu/Sidebar.vue';
 
 import axios from "axios";
 import * as am4core from "@amcharts/amcharts4/core";
@@ -127,6 +141,8 @@ export default {
     "Overview-Panels": OverviewPanels,
     "StockBasic-Info": StockBasicInfo,
     "Loading-Spinner": LoadingSpinner,
+    "Burger-nav": Burger,
+    "Sidebar-nav": Sidebar,
   },
 
   data() {
@@ -389,6 +405,44 @@ export default {
   visibility: hidden;
 }
 
+/* SideBar CSS */
+html {
+   height: 100%;
+   overflow:hidden;
+ }
+
+ body {
+   border: 0; margin: 0; padding: 0;
+   font-family: 'Lato';
+   height: 100%;
+   background: rgb(101,31,87);
+   background: linear-gradient(45deg, rgba(101,31,87,1) 0%, rgba(225,113,87,1) 48%, rgba(249,248,113,1) 100%);
+ }
+
+ .logo {
+   align-self: center;
+   color: rgb(255, 1, 1);
+   font-weight: bold;
+   font-family: 'Lato'
+ }
+
+ .main-nav {
+   display: flex;
+   justify-content: space-between;
+   padding: 0.5rem 0.8rem;
+ }
+
+ ul.sidebar-panel-nav {
+   list-style-type: none;
+ }
+
+ ul.sidebar-panel-nav > li > a {
+   color: rgb(255, 255, 255);
+   text-decoration: none;
+   font-size: 1.5rem;
+   display: block;
+   padding-bottom: 0.5em;
+ }
 
 
 

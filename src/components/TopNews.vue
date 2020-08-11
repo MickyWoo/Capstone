@@ -40,7 +40,6 @@ export default {
   list-style-type: none;
   margin: 10px;
    box-shadow: 5px 5px #888888;
-  background-color: rgb(245, 204, 229);
   
 }
 

@@ -16,7 +16,7 @@
       <button class="dropbtn"
         v-on:click="show"
         >  
-        Complete OverView
+        Stock OverView
       </button>
 
     </div>

@@ -2,7 +2,7 @@
 
 <div class="panelContainer"> 
      <div class="panel-1">
-        <h3> Panel 1 </h3>
+        <h3> Valuation  </h3>
         <div> PERatio: {{results.PERatio}} </div>
         <div> DividendPerShare {{results.DividendPerShare}} </div>
         <div>DividendYield: {{results.DividendYiel}} </div>
@@ -10,7 +10,7 @@
 
       </div>
       <div class="panel-2">
-        <h3> Panel 2 </h3>
+        <h3> Company Profile </h3>
 
         <div> {{results.Description}} </div>
         <div> Address: {{results.Address}} </div>
@@ -18,7 +18,7 @@
 
       </div>
       <div class="panel-3">
-        <h3> Panel 3 </h3>
+        <h3> Balance Sheet </h3>
         <div> MarketCapitalization: {{results.MarketCapitalization}} </div>
         <div>TrailingPE: {{results.TrailingPE}} </div>
         <div> ForwardPE: {{results.ForwardPE}} </div>
