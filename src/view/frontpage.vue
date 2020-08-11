@@ -8,7 +8,7 @@
       >
         <div class="logo">
           <a href="#"> Market View</a>
-       
+
         </div>
         <!-- <div> About </div>
         <div> Home </div>
@@ -122,39 +122,31 @@
       <hr>
     </div>
 
-<!-- FOOTER -->
-      <v-footer
-        id="Contact"
-        
-        
-        padless
-        class="footer"
-      >
-        <v-card
-          flat
-          tile
-          class=" white--text text-center container"
+    <!-- FOOTER -->
+    <div class="">
+
+    <div class="footer">
+      <v-card-text>
+        <v-btn
+          v-for="icon in icons"
+          :key="icon"
+          class="mx-4 white--text"
+          icon
         >
-          <v-card-text>
-            <v-btn
-              v-for="icon in icons"
-              :key="icon"
-              class="mx-4 white--text"
-              icon
-            >
-              <v-icon size="24px">{{ icon }}</v-icon>
-            </v-btn>
-          </v-card-text>
+          <v-icon size="30px">{{ icon }}</v-icon>
+        </v-btn>
+      </v-card-text>
 
-          <v-divider></v-divider>
+      <v-divider></v-divider>
 
-          <v-card-text class="white--text">
-            {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
-          </v-card-text>
-        </v-card>
-      </v-footer>
+      <v-card-text class="white--text">
+        {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
+      </v-card-text>
 
     </div>
+    </div>
+
+  </div>
 
 </template>
 
@@ -398,7 +390,7 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  margin: 15px;
+
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -407,8 +399,15 @@ export default {
   padding: 6px;
   margin-top: 8px;
   font-size: 17px;
-  border: 3px solid rgb(0, 17, 250);
-  border-radius: 25px;
+  border: 5px solid ;
+  border-radius: 50px;
+  border-image-source: linear-gradient( 45deg,
+    rgba(101, 31, 87, 1) 0%,
+    rgba(225, 113, 87, 1) 48%,
+    rgba(249, 248, 113, 1) 100%);
+
+  border-image-slice: 1;
+
 }
 
 #chartdiv {
@@ -430,6 +429,7 @@ export default {
 /* SideBar CSS */
 
 #Nav-Bar {
+  position: sticky;
   border: 0;
   margin: 0;
   padding: 0;
@@ -444,16 +444,13 @@ export default {
   );
 }
 
-.logo a{
- 
+.logo a {
   color: rgb(253, 231, 231);
   font-weight: bold;
   font-family: "Lato";
   text-shadow: 0 0 3px black;
   font-size: 30px;
- 
 }
-
 
 .main-nav {
   display: flex;
@@ -480,13 +477,18 @@ ul.sidebar-panel-nav > li > a {
     45deg,
     rgba(101, 31, 87, 1) 0%,
     rgba(225, 113, 87, 1) 48%,
-    rgba(249, 248, 113, 1) 100%);
+    rgba(249, 248, 113, 1) 100%
+  );
   justify-content: center;
+  min-height: 150px;
+  width: 100%;
+  align-items: center;
+
+
 }
 
-.spacer{
+.spacer {
   height: 100px;
-
 }
 
 /* dark mode css */
