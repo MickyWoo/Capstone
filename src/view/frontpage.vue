@@ -1,10 +1,10 @@
 <template>
-  <div class="Head">
+  <div id="Home" class="Head">
 
     <div id="Nav-Bar">
       <nav
         class="main-nav"
-        id="Home"
+        
       >
         <div class="logo">
           <a href="#"> Market View</a>
@@ -18,7 +18,7 @@
 
       <Sidebar-nav>
         <ul class="sidebar-panel-nav">
-          <li><a href="#">Home</a></li>
+          <li><a href="#Home">Home</a></li>
           <li><a href="#Charts">Charts</a></li>
           <li><a href="#Contact">Contact</a></li>
         </ul>
@@ -123,7 +123,7 @@
     </div> -->
 
     <!-- FOOTER -->
-    <div class="">
+    <div id="Contact">
 
     <div class="footer">
       <v-card-text>
@@ -415,7 +415,10 @@ export default {
   height: 500px;
   min-width: 500px;
   padding: 10px;
+
 }
+
+
 
 .chartContainer button {
   border: 2px solid black;
@@ -437,7 +440,7 @@ background-color:rgb(166, 230, 255);
 /* SideBar CSS */
 
 #Nav-Bar {
-  position: sticky;
+  position: sticky; top: 0px;
   border: 0;
   margin: 0;
   padding: 0;
@@ -497,6 +500,10 @@ ul.sidebar-panel-nav > li > a {
 
 .spacer {
   height: 100px;
+}
+
+.v-icon:hover, .sidebar-panel-nav li:hover{
+  background-color: rgb(0, 162, 255);
 }
 
 /* dark mode css */

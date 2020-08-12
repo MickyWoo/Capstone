@@ -26,10 +26,7 @@
     }
 </script>
 <style>
-.sidebar{
-    position:fixed;
-    top:0px;
-}
+
     .slide-enter-active,
     .slide-leave-active
     {
