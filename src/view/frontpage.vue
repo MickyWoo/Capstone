@@ -16,13 +16,7 @@
         <Burger-nav></Burger-nav>
       </nav>
 
-      <Sidebar-nav>
-        <ul class="sidebar-panel-nav">
-          <li><a href="#Home">Home</a></li>
-          <li><a href="#Charts">Charts</a></li>
-          <li><a href="#Contact">Contact</a></li>
-        </ul>
-      </Sidebar-nav>
+     
     </div>
 
     <div class="container">
@@ -118,9 +112,18 @@
       <!-- Stock Chart Container END -->
     </div>
 
-    <!-- <div class="spacer">
-      <hr>
-    </div> -->
+    <!-- SVGs don't have a z-index property. They're displayed in the order they're rendered on the page.
+      the sidebar will be over the SVG (because it appears AFTER the SVG in the HTML)
+      So by placing the sidebar AFTER creation of chart it OVERLAPS the Chart. 
+      Also leaving the nav-bar at top keeps its position at top of page -->
+     <Sidebar-nav>
+        <ul class="sidebar-panel-nav">
+          <li><a href="#Home">Home</a></li>
+          <li><a href="#Charts">Charts</a></li>
+          <li><a href="#Contact">Contact</a></li>
+        </ul>
+      </Sidebar-nav>
+
 
     <!-- FOOTER -->
     <div id="Contact">
@@ -416,6 +419,10 @@ export default {
   min-width: 500px;
   padding: 10px;
 
+}
+
+#chartdiv div{
+  position: static !important;
 }
 
 
