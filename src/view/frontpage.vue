@@ -132,11 +132,11 @@
       <v-card-text>
         <v-btn
           v-for="icon in icons"
-          :key="icon"
+          :key="icon.name"
           class="mx-4 white--text"
           icon
         >
-          <v-icon size="30px">{{ icon }}</v-icon>
+         <a :href="icon.url" :target="icon.target"><v-icon size="35px">{{ icon.name }}</v-icon></a>
         </v-btn>
       </v-card-text>
 
@@ -207,7 +207,29 @@ export default {
         { text: "Monthly", value: "monthly" },
         { text: "Yearly", value: "yearly" },
       ],
-      icons: ["mdi-github", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
+      icons: [
+        {
+            name:"mdi-github",
+            url: "https://github.com/MickyWoo",
+            target: '_blank'
+        },
+            {
+            name:"mdi-twitter",
+            url: "#",
+            target: '_blank'
+        },
+            {
+            name:"mdi-account-box",
+            url: "http://mickywoo.com/",
+            target: '_blank'
+        },
+            {
+            name:"mdi-linkedin",
+            url: "https://www.linkedin.com/in/micky-woo-9a47981b0/",
+            target: '_blank'
+        },
+        
+           ],
     };
   },
 
