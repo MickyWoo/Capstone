@@ -3,14 +3,15 @@
   <div
     class="stockInfo"
     >
-
+<transition-group name="fade" appear tag="div" >
     <div
       class="stockContainer"
       v-for="(value, name) in dailyChartData"
-      :key="name.open">
+      :key="value">
       <div> {{ name }}: {{ value }}</div>
 
     </div>
+</transition-group>
 
     <div class="overview">
       <button class="dropbtn"

@@ -1,48 +1,45 @@
 <template>
 
-<div class="panelContainer"> 
-     <div class="panel-1">
-        <h3> Valuation  </h3>
-        <div> PERatio: {{results.PERatio}} </div>
-        <div> DividendPerShare {{results.DividendPerShare}} </div>
-        <div>DividendYield: {{results.DividendYiel}} </div>
-        <div> AnalystTargetPrice: {{results.AnalystTargetPrice}} </div>
+  <transition name="fade" appear tag="div">
+    <div class="panelContainer">
+        <div class="panel-1">
+          <h3> Valuation </h3>
+          <div> PERatio: {{results.PERatio}} </div>
+          <div> DividendPerShare {{results.DividendPerShare}} </div>
+          <div>DividendYield: {{results.DividendYiel}} </div>
+          <div> AnalystTargetPrice: {{results.AnalystTargetPrice}} </div>
 
-      </div>
-      <div class="panel-2">
-        <h3> Company Profile </h3>
+        </div>
+        <div class="panel-2">
+          <h3> Company Profile </h3>
 
-        <div> {{results.Description}} </div>
-        <div> Address: {{results.Address}} </div>
-        <div> FullTimeEmployees: {{results.FullTimeEmployees}} </div>
+          <div> {{results.Description}} </div>
+          <div> Address: {{results.Address}} </div>
+          <div> FullTimeEmployees: {{results.FullTimeEmployees}} </div>
 
-      </div>
-      <div class="panel-3">
-        <h3> Balance Sheet </h3>
-        <div> MarketCapitalization: {{results.MarketCapitalization}} </div>
-        <div>TrailingPE: {{results.TrailingPE}} </div>
-        <div> ForwardPE: {{results.ForwardPE}} </div>
-        <div>PriceToBookRatio: {{results.PriceToBookRatio}} </div>
+        </div>
+        <div class="panel-3">
+          <h3> Balance Sheet </h3>
+          <div> MarketCapitalization: {{results.MarketCapitalization}} </div>
+          <div>TrailingPE: {{results.TrailingPE}} </div>
+          <div> ForwardPE: {{results.ForwardPE}} </div>
+          <div>PriceToBookRatio: {{results.PriceToBookRatio}} </div>
 
-      </div>
-
-
-</div>
+        </div>
+    </div>
+  </transition>
 </template>
 
 <script>
 export default {
-    name: "OverviewPanels",
-    props:{
-        results: {},
-    },
-    data () {
-        return {
-
-        }
-    }, 
-    
-}
+  name: "OverviewPanels",
+  props: {
+    results: {},
+  },
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style scoped>
@@ -51,7 +48,6 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
 }
-
 
 .panelContainer div {
   min-width: 200px;
