@@ -6,6 +6,7 @@
           v-for="story in latestNews.articles"
           :key="story.title"
         >
+        
 
           <li class="storyTitle"> <a v-bind:href="story.url"> {{story.title}} </a> </li>
 

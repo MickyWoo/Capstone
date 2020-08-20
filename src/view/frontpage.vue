@@ -2,21 +2,13 @@
   <div id="Home" class="Head">
 
     <div id="Nav-Bar">
-      <nav
-        class="main-nav"
-        
-      >
+      <nav class="main-nav">
         <div class="logo">
           <a href="#"> Market View</a>
-
         </div>
-        <!-- <div> About </div>
-        <div> Home </div>
-        <div> contact </div> -->
-        <Burger-nav></Burger-nav>
+            <Burger-nav></Burger-nav>
       </nav>
 
-     
     </div>
 
     <div class="container">
@@ -36,7 +28,7 @@
           v-on:submit.prevent="getTicker"
         >
           <div class="searchbar-input">
-            <!-- Input -->
+   
             <input
               class="search"
               v-model="ticker"
@@ -46,7 +38,7 @@
 
           </div>
 
-          <button type="submit"> submit </button>
+          <button class="submit" type="submit"> submit </button>
         </form>
 
         <Loading-Spinner v-if="showLoading"> </Loading-Spinner>
@@ -79,7 +71,7 @@
       v-if="display"
     > </Overview-Panels>
 
-    <!-- StockChart -->
+<!-- StockChart -->
     <div
       class="chartContainer"
       id="Charts"
@@ -91,7 +83,8 @@
         v-if="loaded"
       >
 
-        <button
+        <button 
+          class="chartButton"
           v-for="sets in setsAvaliable"
           :key="sets.name"
           v-bind:value="sets.value"
@@ -128,25 +121,25 @@
     <!-- FOOTER -->
     <div id="Contact">
 
-    <div class="footer">
-      <v-card-text>
-        <v-btn
-          v-for="icon in icons"
-          :key="icon.name"
-          class="mx-4 white--text"
-          icon
-        >
-         <a :href="icon.url" :target="icon.target"><v-icon size="35px">{{ icon.name }}</v-icon></a>
-        </v-btn>
-      </v-card-text>
+      <div class="footer">
+        <v-card-text>
+          <v-btn
+            v-for="icon in icons"
+            :key="icon.name"
+            class="mx-4 white--text iconButtons" 
+            icon
+          >
+          <a :href="icon.url" :target="icon.target"><v-icon size="35px">{{ icon.name }}</v-icon></a>
+          </v-btn>
+        </v-card-text>
 
-      <v-divider></v-divider>
+        <v-divider></v-divider>
 
-      <v-card-text class="year" style="font-size:1.25em">
-        {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
-      </v-card-text>
+        <v-card-text class="year" style="font-size:1.25em">
+          {{ new Date().getFullYear() }} — <strong>Micky Woo</strong>
+        </v-card-text>
 
-    </div>
+      </div>
     </div>
 
   </div>
@@ -449,14 +442,14 @@ export default {
 
 
 
-.chartContainer button {
+.chartContainer button, .submit {
   border: 2px solid black;
   margin: 5px;
 
   min-width: 80px;
   padding: 5px;
 }
-.chartContainer button:hover {
+.chartContainer button:hover, .submit:hover {
 background-color:rgb(166, 230, 255);
 
   transition: 1.25s;
@@ -531,69 +524,10 @@ ul.sidebar-panel-nav > li > a {
   height: 100px;
 }
 
-.v-icon:hover, .sidebar-panel-nav li:hover{
+.v-icon:hover, .sidebar-panel-nav li:hover  {
   background-color: rgb(0, 162, 255);
-}
-
-/* dark mode css */
-/* .dark-mode {
-  background-color: black;
-  color: white;
+    transition: 1.2s;
 }
 
 
-.theme-switch-wrapper {
-  display: flex;
-  align-items: center;
-
-
-}
-.theme-switch {
-  display: inline-block;
-  height: 34px;
-  position: relative;
-  width: 60px;
-}
-
-.theme-switch input {
-  display:none;
-}
-
-.slider {
-  background-color: #ccc;
-  bottom: 0;
-  cursor: pointer;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: .4s;
-}
-
-.slider:before {
-  background-color: #fff;
-  bottom: 4px;
-  content: "";
-  height: 26px;
-  left: 4px;
-  position: absolute;
-  transition: .4s;
-  width: 26px;
-}
-
-input:checked + .slider {
-  background-color: #66bb6a;
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-} */
 </style>
