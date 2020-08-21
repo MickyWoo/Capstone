@@ -23,6 +23,7 @@ npm install
 npm install axios
 npm install @amcharts/amcharts4
 npm install --save vue2-animate
+npm install vue-analytics  ( plugin for google analytics)
 
 ``` 
 

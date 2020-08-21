@@ -503,6 +503,7 @@ ul.sidebar-panel-nav > li > a {
   padding-bottom: 0.5em;
 }
 
+
 .footer {
   display: flex;
   background: rgb(101, 31, 87);
