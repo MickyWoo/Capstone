@@ -1,5 +1,5 @@
 <template>
-  <div id="Home" class="Head">
+  <div id="Home" class="Head" >
 
     <div id="Nav-Bar">
       <nav class="main-nav">
@@ -11,7 +11,7 @@
 
     </div>
 
-    <div class="container">
+    <div class="container" > 
 
       <div class="messages">
         <message-container v-bind:messages="messages"> </message-container>
@@ -28,8 +28,9 @@
           v-on:submit.prevent="getTicker"
         >
 
-        <!-- @input as trigger to get list  and @focus to show List to filter through -->
-          <div class="searchbar-input">
+        <!-- @input as trigger to get list  and @focus to show List to filter through
+        @click="modal = false" https://developer.mozilla.org/en-US/docs/Web/API/Element/blur_event Opposite of @focus -->
+          <div class="overlay" >
    
             <input
               class="search"
@@ -37,18 +38,20 @@
               type="search"
               placeholder="AAPL"
               @input="filterTickers()"
+              @focus="modal = true, blocker = true" 
 
-              @focus="modal = true" 
+
             >
 
-          </div>
-
-          <!-- if model statement so that list dissapears upon selection -->
-          <div v-if="filterTickerList && modal" > 
-            <ul> 
-              <!-- due to the JSON having a Number to start the Object I have to use brackets with Quoted Name to Display on page -->
-              <li v-for="tickers in tickerList.bestMatches" :key="tickers.symbol" @click="chosenTicker(tickers)" > {{tickers["1. symbol"] }} : {{tickers["2. name"] }}</li>
-            </ul>
+            <!-- if model statement so that list dissapears upon selection -->
+              <div class="tickerFilter" v-if="filterTickerList && modal " > 
+                <div class="blocker" @click="closeList()" v-if="blocker">
+                  <ul> 
+                    <!-- due to the JSON having a Number to start the Object I have to use brackets with Quoted Name to Display on page -->
+                    <li  class="contents" v-for="tickers in tickerList.bestMatches" :key="tickers.symbol" @click="chosenTicker(tickers)" > {{tickers["1. symbol"] }} : {{tickers["2. name"] }}</li>
+                  </ul>
+                </div>
+              </div>
           </div>
 
           <button class="submit" type="submit"> submit </button>
@@ -162,6 +165,8 @@
 
 
 <script>
+
+
 import Burger from "@/components/menu/Burger.vue";
 import Sidebar from "@/components/menu/Sidebar.vue";
 
@@ -176,6 +181,8 @@ import TopNews from "@/components/TopNews.vue";
 import OverviewPanels from "@/components/OverviewPanels.vue";
 import StockBasicInfo from "@/components/StockBasicInfo.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
+
+
 
 am4core.useTheme(am4themes_animated); //https://www.amcharts.com/docs/v4/getting-started/integrations/using-vue-js/
 
@@ -237,11 +244,13 @@ export default {
         },
         
            ],
+      blocker: false,
       modal: false,
        tickerList: [],
       filterTickerList: [],
     };
   },
+  
 
   mounted() {
     this.stockChart();
@@ -249,7 +258,10 @@ export default {
     // setInterval( ()=> this.getNews(), 5*60*1000); // and continous update every 5mins https://www.w3schools.com/js/js_timing.asp
     // I have LIMITED API calls, so i commented it out.
     console.log("Latest news updates every 5 mins!!");
+
+
   },
+
 
   methods: {
     getNews: function () {
@@ -443,13 +455,19 @@ export default {
      }
     },
 
-     
-   
-
    chosenTicker: function(tickers) {
      this.ticker = tickers["1. symbol"];
       this.modal = false;
-   }
+   },
+
+   closeList: function(){
+     this.modal = false;
+     this.blocker = false;
+
+
+   },
+
+    
   },
 };
 
@@ -477,8 +495,64 @@ export default {
     rgba(249, 248, 113, 1) 100%);
 
   border-image-slice: 1;
+  background: rgb(255, 255, 255);   
+
+    /* not sure why but trnasform is what i needed to combine with z-index */
+  transform: translate(0%, 0%);
+      /*  index of 10 to display above blocker */
+  z-index: 10; 
 
 }
+
+.overlay {
+    padding: 0;
+    margin: 5px;
+    border: 1px solid #eeeeee;
+
+    width: 100%;
+    font-weight: bold;
+}
+
+ .tickerFilter li {
+    list-style: none ;
+  
+    border: 1px solid #000000;
+    padding: 4px 2px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+ 
+    align-items: center;
+    justify-content: center;
+    background: #FFF;   
+     position: relative;
+     max-width: 75%;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+
+
+}
+.tickerFilter li:hover{
+      background-color: #692853;
+    color: white;
+        z-index: 10;
+  
+}
+
+/* Key piece on "click outside div to close  Stock Filter List" */
+.blocker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: ' ';
+    background: rgba(0,0,0,.5);
+}
+
+
+/* END of Search INPUT / List display */
 
 #chartdiv {
   width: 100%;
@@ -502,9 +576,7 @@ background-color:rgb(166, 230, 255);
   transition: 1.25s;
 }
 
-.hidden {
-  visibility: hidden;
-}
+
 
 /* SideBar CSS */
 
@@ -576,6 +648,7 @@ ul.sidebar-panel-nav > li > a {
   background-color: rgb(0, 162, 255);
     transition: 1.2s;
 }
+
 
 
 </style>
