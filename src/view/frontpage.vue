@@ -125,6 +125,7 @@
 
     <!-- SVGs don't have a z-index property. 
     They're displayed in the order they're rendered on the page.
+    theforefore sidebar-nav is moved all the way down here after "chardiv" creation
        -->
      <Sidebar-nav>
         <ul class="sidebar-panel-nav">
@@ -278,9 +279,12 @@ export default {
         .then((response) => {
           this.latestNews = response.data;
         })
-        .catch((error) => {
-          this.errors.push(error);
+         .catch(error => {
+        this.messages.push({
+          type: 'error',
+          text: error.message
         });
+      })
     },
 
     getTicker: function () {
@@ -308,7 +312,7 @@ export default {
               this.checkResults();
 
             this.dailyData();
-            //  this.stockChart();
+
           });
 
         axios
@@ -355,9 +359,12 @@ export default {
           this.chartdata = response.data;
           this.chart.data = this.chartdata.results;
         })
-        .catch((error) => {
-          this.errors.push(error);
+         .catch(error => {
+        this.messages.push({
+          type: 'error',
+          text: error.message
         });
+      })
     },
 
     checkResults: function () {
@@ -448,9 +455,12 @@ export default {
 
      
         })
-        .catch((error) => {
-          this.errors.push(error);
+        .catch(error => {
+        this.messages.push({
+          type: 'error',
+          text: error.message
         });
+      })
 
      }
     },
@@ -551,6 +561,9 @@ export default {
     background: rgba(0,0,0,.5);
 }
 
+.hidden {
+  visibility: hidden;
+}
 
 /* END of Search INPUT / List display */
 

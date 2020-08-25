@@ -2,7 +2,7 @@
 
   <transition name="fade" appear tag="div">
     <div class="panelContainer">
-        <div class="panel-1">
+        <div class="panel-1" >
           <h3> Valuation </h3>
           <div> PERatio: {{results.PERatio}} </div>
           <div> DividendPerShare {{results.DividendPerShare}} </div>
@@ -10,7 +10,7 @@
           <div> AnalystTargetPrice: {{results.AnalystTargetPrice}} </div>
 
         </div>
-        <div class="panel-2">
+        <div class="panel-2" >
           <h3> Company Profile </h3>
 
           <div> {{results.Description}} </div>
@@ -18,7 +18,7 @@
           <div> FullTimeEmployees: {{results.FullTimeEmployees}} </div>
 
         </div>
-        <div class="panel-3">
+        <div class="panel-3" >
           <h3> Balance Sheet </h3>
           <div> MarketCapitalization: {{results.MarketCapitalization}} </div>
           <div>TrailingPE: {{results.TrailingPE}} </div>
@@ -34,7 +34,7 @@
 export default {
   name: "OverviewPanels",
   props: {
-    results: {},
+    results: [],
   },
   data() {
     return {};

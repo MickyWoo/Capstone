@@ -4,10 +4,11 @@
     class="stockInfo"
     >
 <transition-group name="fade" appear tag="div" >
+  <!-- Keyed must be unique and with the two (value, name) name is unique identifyer to avoid Error in child component -->
     <div
       class="stockContainer"
       v-for="(value, name) in dailyChartData"
-      :key="value">
+      :key="name">
       <div> {{ name }}: {{ value }}</div>
 
     </div>
