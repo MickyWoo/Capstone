@@ -27,6 +27,8 @@
           class="searchbar"
           v-on:submit.prevent="getTicker"
         >
+
+        <!-- @input as trigger to get list  and @focus to show List to filter through -->
           <div class="searchbar-input">
    
             <input
@@ -34,12 +36,24 @@
               v-model="ticker"
               type="search"
               placeholder="AAPL"
+              @input="filterTickers()"
+
+              @focus="modal = true" 
             >
 
           </div>
 
+          <!-- if model statement so that list dissapears upon selection -->
+          <div v-if="filterTickerList && modal" > 
+            <ul> 
+              <!-- due to the JSON having a Number to start the Object I have to use brackets with Quoted Name to Display on page -->
+              <li v-for="tickers in tickerList.bestMatches" :key="tickers.symbol" @click="chosenTicker(tickers)" > {{tickers["1. symbol"] }} : {{tickers["2. name"] }}</li>
+            </ul>
+          </div>
+
           <button class="submit" type="submit"> submit </button>
         </form>
+
 
         <Loading-Spinner v-if="showLoading"> </Loading-Spinner>
 
@@ -63,9 +77,10 @@
       </div>
 
     </div>
-    <!-- End of News/Tick Search combo -->
+ <!-- End of News/Tick Search combo -->
 
-    <!-- STOCK OverView Panels -->
+ <!-- STOCK OverView Panels -->
+
     <Overview-Panels
       v-bind:results="this.results"
       v-if="display"
@@ -100,15 +115,14 @@
         v-bind:class="{hidden: !loaded}"
       ></div>
 
-      <!-- v-bind:style="{visibility: !loaded ? 'visable' : 'hidden' }" -->
+      <!-- v-bind:style="{visibility: !loaded ? 'visable' : 'hidden' }"  ALSO works-->
 
       <!-- Stock Chart Container END -->
     </div>
 
-    <!-- SVGs don't have a z-index property. They're displayed in the order they're rendered on the page.
-      the sidebar will be over the SVG (because it appears AFTER the SVG in the HTML)
-      So by placing the sidebar AFTER creation of chart it OVERLAPS the Chart. 
-      Also leaving the nav-bar at top keeps its position at top of page -->
+    <!-- SVGs don't have a z-index property. 
+    They're displayed in the order they're rendered on the page.
+       -->
      <Sidebar-nav>
         <ul class="sidebar-panel-nav">
           <li><a href="#Home">Home</a></li>
@@ -223,6 +237,9 @@ export default {
         },
         
            ],
+      modal: false,
+       tickerList: [],
+      filterTickerList: [],
     };
   },
 
@@ -239,7 +256,7 @@ export default {
       axios
         .get(`http://newsapi.org/v2/top-headlines?country=us`, {
           params: {
-            "Access-Control-Allow-Origin": "*",
+            crossDomain: true,
 
             pageSize: "5",
             category: "business",
@@ -397,12 +414,47 @@ export default {
       ];
     },
 
-    //    ToggleMode: function() {
-    //    var element = document.body;
-    //    element.toggle("dark-mode");
-    // },
+   filterTickers: function() {
+     if (this.ticker !== "") {
+        axios
+        .get(
+          `https://www.alphavantage.co/query?function=SYMBOL_SEARCH`,
+          {
+            params: {
+              keywords: this.ticker,
+         
+              apikey: "JSAD44QMQ8EVHSX7",
+            },
+          }
+        )
+        .then((response) => {
+          this.tickerList = response.data;
+
+      //      this.filterTickerList = this.tickerList.filter( ticker => {
+      //   return ticker.toLowerCase().startsWith(this.ticker.toLowerCase());
+      // })
+
+     
+        })
+        .catch((error) => {
+          this.errors.push(error);
+        });
+
+     }
+    },
+
+     
+   
+
+   chosenTicker: function(tickers) {
+     this.ticker = tickers["1. symbol"];
+      this.modal = false;
+   }
   },
 };
+
+
+
 </script>
 
 <style scoped>
@@ -435,11 +487,6 @@ export default {
   padding: 10px;
 
 }
-
-#chartdiv div{
-  position: static !important;
-}
-
 
 
 .chartContainer button, .submit {
