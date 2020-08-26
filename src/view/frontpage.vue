@@ -269,7 +269,6 @@ export default {
       axios
         .get(`http://newsapi.org/v2/top-headlines?country=us`, {
           params: {
-            AccessControlAllowOrigin: "*",
 
             pageSize: "5",
             category: "business",
@@ -312,6 +311,7 @@ export default {
               this.checkResults();
 
             this.dailyData();
+            this.modal = false;
           
 
           });
