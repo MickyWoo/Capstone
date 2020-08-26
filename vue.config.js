@@ -5,6 +5,6 @@ module.exports = {
     "vuetify"
   ],
   devServer: {
-    proxy: 'https://newsapi.org',
+    proxy: 'http://mickywoo.com',
 }
 }
