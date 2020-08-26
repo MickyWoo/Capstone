@@ -267,7 +267,7 @@ export default {
   methods: {
     getNews: function () {
       axios
-        .get(`http://localhost:8080/v2/top-headlines?country=us`, {
+        .get(`https://newsapi.org/v2/top-headlines?country=us`, {
           params: {
 
             pageSize: "5",
