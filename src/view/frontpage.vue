@@ -529,7 +529,7 @@ export default {
   
     border: 1px solid #000000;
     padding: 4px 2px;
-    border: 1px solid #ccc;
+ 
     border-radius: 5px;
  
     align-items: center;
@@ -551,7 +551,7 @@ export default {
   
 }
 
-/* Key piece on "click outside div to close  Stock Filter List" */
+/* Key piece on "click outside div to close  Stock Filter List" zindex -1 is the life saver */
 .blocker {
     position: fixed;
     top: 0;
@@ -560,6 +560,7 @@ export default {
     right: 0;
     content: ' ';
     background: rgba(0,0,0,.5);
+    z-index: -1;
 }
 
 .hidden {

@@ -42,7 +42,7 @@
     .sidebar-backdrop {
         background-color: rgba(0,0,0,.5);
         width: 100vw;
-        height: 100vh;
+        height: 100%;
         position: fixed;
         top: 0;
         left: 0;
@@ -58,6 +58,6 @@
         height: 100vh;
         z-index: 999;
         padding: 3rem 20px 2rem 20px;
-        width: 200px;
+        width: 30%;
     }
 </style>
