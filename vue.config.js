@@ -13,4 +13,14 @@ module.exports = {
 
   }
 },
+pluginOptions: {
+  proxy: {
+      enabled: true,
+      context: '/api',
+      options: {
+          target: '#',
+          changeOrigin: true
+      }
+  }
+}
 }
