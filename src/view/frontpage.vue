@@ -187,8 +187,7 @@ import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 am4core.useTheme(am4themes_animated); //https://www.amcharts.com/docs/v4/getting-started/integrations/using-vue-js/
 
-const proxyurl = "https://cors-anywhere.herokuapp.com/";
-const url = "https://newsapi.org/v2/top-headlines?country=us&pageSize=5&category=business&apiKey=f702b0d64e0f48b5809e0c8db7c9a399";
+
 
 export default {
   name: "frontpage",
@@ -269,13 +268,15 @@ export default {
 
   methods: {
     getNews: function () {
+      const proxyurl = "https://cors-anywhere.herokuapp.com/";
+      const url = "https://newsapi.org/v2/top-headlines?country=us";
       axios
         .get((proxyurl+url), {
           params: {
 
-            // pageSize: "5",
-            // category: "business",
-            // apiKey: "f702b0d64e0f48b5809e0c8db7c9a399",
+            pageSize: "5",
+            category: "business",
+            apiKey: "f702b0d64e0f48b5809e0c8db7c9a399",
           },
         })
         .then((response) => {
