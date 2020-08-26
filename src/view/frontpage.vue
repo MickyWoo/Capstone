@@ -506,11 +506,13 @@ export default {
     rgba(249, 248, 113, 1) 100%);
 
   border-image-slice: 1;
-  background: rgb(255, 255, 255);   
+ background-color: rgb(255, 255, 255) ;
 
-    /* not sure why but trnasform is what i needed to combine with z-index */
-  transform: translate(0%, 0%);
-      /*  index of 10 to display above blocker */
+
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/Stacking_without_z-index 
+position needs to be relative to be ABOVE the Stack of the Blocker div which is  abs a "lower stack* with index of 1 */
+  position: relative;
+      /*  index of 10 to display above blocker with index of -1 */
   z-index: 10; 
 
 }
@@ -518,8 +520,6 @@ export default {
 .overlay {
     padding: 0;
     margin: 5px;
-    border: 1px solid #eeeeee;
-
     width: 100%;
     font-weight: bold;
 }
@@ -551,8 +551,10 @@ export default {
   
 }
 
-/* Key piece on "click outside div to close  Stock Filter List" zindex -1 is the life saver */
+/* Key piece on "click outside div to close  Stock Filter List"   */
 .blocker {
+
+  /* position absolute or fixed must be used for this to work and index must be lower than list & input div */
     position: fixed;
     top: 0;
     left: 0;
@@ -560,7 +562,7 @@ export default {
     right: 0;
     content: ' ';
     background: rgba(0,0,0,.5);
-    z-index: -1;
+    z-index: 1;
 }
 
 .hidden {
