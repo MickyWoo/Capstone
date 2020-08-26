@@ -269,7 +269,7 @@ export default {
       axios
         .get(`http://newsapi.org/v2/top-headlines?country=us`, {
           params: {
-            crossDomain: true,
+            AccessControlAllowOrigin: "*",
 
             pageSize: "5",
             category: "business",
@@ -312,6 +312,7 @@ export default {
               this.checkResults();
 
             this.dailyData();
+          
 
           });
 
