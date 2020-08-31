@@ -1,4 +1,6 @@
-# Capstone Project - Stock API - News API COmbo
+# (Please Open with Firefox Browser to Ensure Cross Origin Success)
+
+# Capstone Project  
 
 ## create
 ```
